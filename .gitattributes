@@ -1,0 +1,4 @@
+# This repo is checked out on a Linux VPS and built into a Docker image.
+# Pin LF so a Windows checkout can't ship CRLF into the Dockerfile or nginx.conf.
+* text=auto eol=lf
+*.jpg -text

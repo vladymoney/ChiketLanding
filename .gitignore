@@ -1,0 +1,7 @@
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# build artefacts
+index.html.gz
