@@ -5,8 +5,9 @@ services:
     container_name: chiket-landing
     restart: unless-stopped
     ports:
-      # Override on the VPS with:  PORT=80 docker compose up -d
-      - "${PORT:-8080}:80"
+      # Host port comes from .env. The fallback here only applies if that file
+      # is missing, so both paths land on the same uncommon port.
+      - "${PORT:-8417}:80"
     healthcheck:
       # localhost is ::1 in this image and nginx binds IPv4 only - name the address
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1/healthz"]

@@ -19,19 +19,31 @@ cd ChiketLanding
 docker compose up -d --build
 ```
 
-That serves the page on **port 8080**. Check it:
+That serves the page on **port 8417** — deliberately off the beaten track, so it
+should not collide with anything else you already run. It is live at
+`http://<your-vps-ip>:8417/`. Check it:
 
 ```bash
-curl -I http://localhost:8080
+curl -I http://localhost:8417
 ```
 
-To serve it on port 80 instead:
+### Changing the port
+
+The host port lives in `.env`, which Compose loads automatically:
+
+```
+PORT=8417
+```
+
+Edit that line and re-run `docker compose up -d`. Nothing else needs to change —
+the container always listens on 80 internally, so the healthcheck and nginx config
+are unaffected.
+
+For a one-off without editing the file:
 
 ```bash
-PORT=80 docker compose up -d --build
+PORT=9123 docker compose up -d --build
 ```
-
-Then it is live at `http://<your-vps-ip>/`.
 
 ### Updating after a change
 
@@ -54,12 +66,12 @@ docker compose down
 
 The container speaks plain HTTP on purpose, so it can sit behind whatever you already
 run. If you have nothing yet, Caddy is the shortest path to automatic TLS — point your
-domain's A record at the VPS, leave this container on 8080, and give Caddy a one-line
-`Caddyfile`:
+domain's A record at the VPS, leave this container on its port, and give Caddy a
+one-line `Caddyfile`:
 
 ```
 landing.yourdomain.com {
-    reverse_proxy localhost:8080
+    reverse_proxy localhost:8417
 }
 ```
 
@@ -74,6 +86,7 @@ landing.yourdomain.com {
 | `Dockerfile` | Precompresses the page, then serves it from `nginx:1.27-alpine` |
 | `nginx.conf` | `gzip_static`, `no-cache` on the page, `/healthz` endpoint |
 | `docker-compose.yml` | One service, restart-on-failure, healthcheck, capped logs |
+| `.env` | Host port, read automatically by Compose |
 | `build-standalone.py` | Regenerates `index.html` from the source build (see below) |
 
 ### Why the page is precompressed
