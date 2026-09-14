@@ -20,6 +20,10 @@
 
 <style>
 :root{
+  /* scroll length of the intro scrub. 500vh took four full screens to reach the
+     next section; 300vh halves the travel. The phase timings are percentages, so
+     they rescale on their own. */
+  --hero-len:300vh;
   --bg:#06070a; --surface:#0d0e12; --surface-2:#13141a; --scrim:11 13 18;
   --border:rgba(255,255,255,.06); --border-glow:rgba(255,90,31,.3);
   --primary:#FF5A1F; --primary-dim:rgba(255,90,31,.12); --primary-glow:rgba(255,90,31,.35);
@@ -84,7 +88,7 @@ html.js .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s var(
 
 /* hero */
 .hero-track{height:100vh;position:relative}
-html.js .hero-track{height:500vh}
+html.js .hero-track{height:var(--hero-len)}
 .hero-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .hero-stage::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background-image:linear-gradient(rgba(255,90,31,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,90,31,.04) 1px,transparent 1px);
@@ -276,7 +280,7 @@ html.js .price-card.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
-  .hero-track{height:100vh}
+  html.js .hero-track,.hero-track{height:100vh}
   .hero-stage{position:relative;background:var(--poster) center/cover}
   .hero-video{display:none}
   .hero-phase[data-phase="1"],.hero-phase[data-phase="2"]{display:none!important}
@@ -1281,7 +1285,7 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
 
     var r = track.getBoundingClientRect(), span = track.offsetHeight - innerHeight;
     var target = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
-    smoothed = snap ? target : smoothed + (target - smoothed) * (1 - Math.exp(-6 * dt));
+    smoothed = snap ? target : smoothed + (target - smoothed) * (1 - Math.exp(-10 * dt));
 
     /* video.seeking is native and self-clearing: a dropped 'seeked' event cannot latch scrubbing off */
     if (video && video.duration && !video.seeking) {
