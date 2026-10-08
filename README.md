@@ -147,12 +147,12 @@ the outside, which is the point; the domain keeps working.
 
 ---
 
-## The account-deletion page
+## The Google Play pages
 
-Google Play requires a publicly reachable URL where users can find out how to delete
-their account. It is served at:
+Play requires two publicly reachable URLs:
 
 ```
+https://<your-domain>/privacy
 https://<your-domain>/delete-account
 ```
 
@@ -171,6 +171,7 @@ have been shown the landing page instead of the policy.
 | File | Purpose |
 | --- | --- |
 | `index.html` | The entire page, ~3.3 MB with all assets inlined |
+| `privacy.html` | Privacy policy, served at `/privacy` for Google Play |
 | `delete-account.html` | Account-deletion instructions, served at `/delete-account` for Google Play |
 | `og.jpg` | Social preview image for link unfurls |
 | `Dockerfile` | Precompresses the page, then serves it from `nginx:1.27-alpine` |
