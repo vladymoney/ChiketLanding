@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="index,follow">
+<title>Delete your account &mdash; Chiket</title>
+<meta name="description" content="How to delete your Chiket account from the app.">
+<meta name="theme-color" content="#06070a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#06070a; --surface:#0d0e12; --surface-2:#13141a;
+  --border:rgba(255,255,255,.08);
+  --primary:#FF5A1F; --flare:#FF8A4D; --primary-dim:rgba(255,90,31,.12);
+  --danger:#E5484D;
+  --text:#fff; --text-2:rgba(255,255,255,.68); --text-3:rgba(255,255,255,.42);
+  --font:'Inter',system-ui,-apple-system,sans-serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+  background-image:radial-gradient(900px 420px at 50% -10%,rgba(255,90,31,.08),transparent 70%)}
+a{color:var(--flare);text-underline-offset:3px}
+a:hover{color:var(--primary)}
+:focus-visible{outline:2px solid var(--primary);outline-offset:3px;border-radius:4px}
+::selection{background:rgba(255,90,31,.3)}
+
+.wrap{max-width:620px;margin:0 auto;padding:0 1.5rem}
+header{padding:2.25rem 0 0}
+.logo{display:inline-block;font-size:1.25rem;font-weight:800;letter-spacing:-.03em;color:var(--text);
+  text-decoration:none}
+.logo em{font-style:normal;color:var(--primary)}
+
+h1{font-size:clamp(1.9rem,5.5vw,2.75rem);font-weight:900;letter-spacing:-.04em;line-height:1.08;
+  margin:2.75rem 0 1rem}
+.lede{font-size:1.0625rem;color:var(--text-2);margin-bottom:2.5rem}
+
+.steps{list-style:none;counter-reset:s;margin:0}
+.steps li{counter-increment:s;position:relative;padding-left:3.25rem;margin-bottom:1.6rem;
+  color:var(--text-2);font-size:1.0625rem}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:2.1rem;height:2.1rem;
+  border-radius:50%;background:var(--primary-dim);border:1px solid rgba(255,90,31,.35);
+  color:var(--primary);font-weight:700;font-size:.9rem;
+  display:flex;align-items:center;justify-content:center}
+.chip{display:inline-block;padding:.1rem .5rem;border-radius:6px;background:var(--surface-2);
+  border:1px solid var(--border);font-size:.92em;font-weight:600;color:var(--text);white-space:nowrap}
+.chip.red{color:var(--danger);border-color:rgba(229,72,77,.4)}
+
+.note{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--danger);
+  border-radius:10px;padding:1rem 1.25rem;margin:2.25rem 0 0;color:var(--text-2)}
+.note strong{color:var(--text)}
+
+footer{margin-top:3.5rem;padding:2rem 0 3rem;border-top:1px solid var(--border);
+  font-size:.875rem;color:var(--text-3)}
+footer a{color:var(--text-2);text-decoration:none}
+footer a:hover{color:var(--flare)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header><a class="logo" href="/">Chiket<em>.app</em></a></header>
+
+<h1>Delete your account</h1>
+<p class="lede">You delete your Chiket account from inside the app. Here is exactly where.</p>
+
+<ol class="steps">
+  <li>Open Chiket and tap <strong>Profile</strong> in the bar at the bottom right.</li>
+  <li>Scroll to the bottom, past <span class="chip">Manage Subscription</span> and
+      <span class="chip">Log out</span>.</li>
+  <li>Tap <span class="chip red">Delete account</span> and confirm.</li>
+</ol>
+
+<p class="note"><strong>This is permanent.</strong> It deletes your account and the data stored
+  with it, and it cannot be undone.</p>
+
+<footer><a href="/">&larr; chiket.app</a></footer>
+
+</div>
+</body>
+</html>

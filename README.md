@@ -62,18 +62,107 @@ docker compose down
 
 ---
 
-## Adding a domain and HTTPS
+## Putting it on a domain, with HTTPS
 
-The container speaks plain HTTP on purpose, so it can sit behind whatever you already
-run. If you have nothing yet, Caddy is the shortest path to automatic TLS — point your
-domain's A record at the VPS, leave this container on its port, and give Caddy a
-one-line `Caddyfile`:
+The container speaks plain HTTP on purpose so it can sit behind the nginx you
+already run on the host. These steps assume Ubuntu with nginx and certbot.
 
+### 1. Point DNS at the server
+
+Create an `A` record for the hostname you want, pointing at the VPS IP. Then
+confirm it resolves before going further — certbot will fail if it does not:
+
+```bash
+dig +short landing.example.com
 ```
-landing.yourdomain.com {
-    reverse_proxy localhost:8417
+
+### 2. Add a server block
+
+```bash
+sudo tee /etc/nginx/sites-available/chiket-landing >/dev/null <<'EOF'
+server {
+    listen 80;
+    listen [::]:80;
+    server_name landing.example.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:8417;
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # The page is ~2.5 MB gzipped. nginx buffers proxied responses with about
+        # 32 KB by default, so without this every request spools through a temp
+        # file on disk.
+        proxy_buffer_size       64k;
+        proxy_buffers        16 64k;
+        proxy_busy_buffers_size 128k;
+    }
 }
+EOF
 ```
+
+Drop the `listen [::]:80;` line if `nginx -t` complains that IPv6 is unavailable.
+
+### 3. Enable it
+
+```bash
+sudo ln -s /etc/nginx/sites-available/chiket-landing /etc/nginx/sites-enabled/
+```
+
+```bash
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+### 4. Get the certificate
+
+```bash
+sudo certbot --nginx -d landing.example.com
+```
+
+Certbot edits the block in place: it adds the `443` server, installs the
+certificate, and sets up the HTTP-to-HTTPS redirect. Renewal is automatic via
+its systemd timer.
+
+### 5. Check it
+
+```bash
+curl -sI https://landing.example.com | head -n 1
+```
+
+### Optional: stop exposing the port directly
+
+Once the domain works, the container no longer needs a public port — only nginx
+on the same host talks to it. Bind it to loopback in `docker-compose.yml`:
+
+```yaml
+    ports:
+      - "127.0.0.1:${PORT:-8417}:80"
+```
+
+Then `docker compose up -d`. After this `http://<ip>:8417` stops answering from
+the outside, which is the point; the domain keeps working.
+
+---
+
+## The account-deletion page
+
+Google Play requires a publicly reachable URL where users can find out how to delete
+their account. It is served at:
+
+```
+https://<your-domain>/delete-account
+```
+
+The page explains where the **Delete account** button is inside the app. It is static,
+needs no backend, and works with JavaScript disabled.
+
+Note that `location /` returns **404** for unknown paths rather than falling back to
+`index.html`. That is deliberate: with a catch-all fallback, `/delete-account` and
+`/privacy` answered 200 with the marketing page, so a reviewer following the link would
+have been shown the landing page instead of the policy.
 
 ---
 
@@ -82,9 +171,10 @@ landing.yourdomain.com {
 | File | Purpose |
 | --- | --- |
 | `index.html` | The entire page, ~3.3 MB with all assets inlined |
+| `delete-account.html` | Account-deletion instructions, served at `/delete-account` for Google Play |
 | `og.jpg` | Social preview image for link unfurls |
 | `Dockerfile` | Precompresses the page, then serves it from `nginx:1.27-alpine` |
-| `nginx.conf` | `gzip_static`, `no-cache` on the page, `/healthz` endpoint |
+| `nginx.conf` | `gzip_static`, `no-cache`, `/healthz`, `/delete-account`, 404 on unknown paths |
 | `docker-compose.yml` | One service, restart-on-failure, healthcheck, capped logs |
 | `.env` | Host port, read automatically by Compose |
 | `build-standalone.py` | Regenerates `index.html` from the source build (see below) |
