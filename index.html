@@ -820,6 +820,23 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
   .stats-grid>div::before{display:none!important}
   .stat-label{max-width:none;text-wrap:balance}
 }
+
+/* --- closed beta recruitment --- */
+.deal{list-style:none;margin:1.9rem auto 2rem;max-width:480px;text-align:left;display:grid;gap:1rem}
+.deal li{display:grid;grid-template-columns:7.4rem 1fr;gap:.9rem;align-items:start;
+  font-size:.9375rem;color:var(--text-2);line-height:1.6}
+.deal b{display:inline-flex;align-items:center;justify-content:center;padding:.22rem .5rem;
+  border-radius:999px;background:var(--surface-2);border:1px solid var(--border);
+  font-size:.625rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--text);white-space:nowrap;margin-top:.1rem}
+.deal li.give b{background:var(--primary-dim);border-color:var(--border-glow);color:var(--primary)}
+.deal strong{color:var(--text)}
+.wl-err{color:var(--danger);font-size:.875rem;font-weight:600;margin:.85rem 0 0;max-width:430px;
+  margin-inline:auto}
+@media (max-width:520px){
+  .deal li{grid-template-columns:1fr;gap:.3rem}
+  .deal b{justify-self:start}
+}
 </style>
 </head>
 <body>
@@ -1065,20 +1082,33 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
 
 <section class="trust" id="waitlist"><div class="container">
   <div class="reveal" data-rv="scale">
-    <div class="trust-label">Now onboarding</div>
-    <h3>We're opening Chiket ward by ward.</h3>
-    <p>Join the Chicago waitlist and we'll email you when your ward goes live. No card, no spam.</p>
+    <div class="trust-label">Android closed beta</div>
+    <h3>Test Chiket for 14 days.<br>Keep Pro free, for life.</h3>
+    <p>We're opening closed testing on Android. Test it properly and your account becomes a
+      <strong>Founder</strong> account &mdash; permanently.</p>
+
+    <ul class="deal">
+      <li class="give"><b>You get</b><span>The <strong>Founder</strong> plan: every Pro feature,
+        free for life. No card now, no card later.</span></li>
+      <li><b>We ask</b><span>That you really use it &mdash; open the app and keep your vehicles
+        current <strong>every day, 14 days in a row</strong>.</span></li>
+      <li><b>Gmail only</b><span>Closed testing runs through Google Play, and Play can only
+        invite Google accounts. A Gmail address is the one thing we need.</span></li>
+    </ul>
+
     <form class="waitlist" id="waitForm">
-      <label class="vh" for="wl">Email address</label>
-      <input id="wl" type="email" placeholder="you@example.com" required>
-      <button class="btn btn-primary" type="submit">Join the waitlist</button>
+      <label class="vh" for="wl">Your Gmail address</label>
+      <input id="wl" type="email" inputmode="email" autocomplete="email"
+             placeholder="you@gmail.com" required aria-describedby="wlErr">
+      <button class="btn btn-primary" type="submit">Become a tester</button>
     </form>
+    <p class="wl-err" id="wlErr" hidden></p>
     <div class="wl-done" id="waitDone">
       <span class="tick"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
         stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg></span>
-      <span class="wl-msg">You&rsquo;re on the list.</span>
+      <span class="wl-msg" id="wlMsg">You&rsquo;re in.</span>
     </div>
-    <p class="built" id="waitNote">Built in Chicago.</p>
+    <p class="built" id="waitNote">Chicago &middot; Android first</p>
   </div>
 </div></section>
 
@@ -1238,20 +1268,67 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
   var phone = document.querySelector('.phone-outer');
   if (phone) phone.style.setProperty('--phone-spill', SPILL[0]);
 
-  /* ---- waitlist: validate, then say plainly that nothing was sent ---- */
-  var form = document.getElementById('waitForm'), wlInput = document.getElementById('wl');
-  wlInput.addEventListener('input', function(){ form.classList.remove('err'); });
+  /* ---- closed-beta sign-up ----
+     Where sign-ups go. Set exactly one; leave both empty and the form says plainly
+     that it is not connected rather than pretending a submission happened.
+       SIGNUP_FORM_URL - a Google Form. Best option: Play Console wants a list of
+                         tester Google accounts, and a Form gives you that as a sheet.
+       SIGNUP_EMAIL    - hands off to the visitor's mail app with the address filled in. */
+  var SIGNUP_FORM_URL = '';
+  var SIGNUP_EMAIL    = '';
+
+  var form = document.getElementById('waitForm'),
+      wlInput = document.getElementById('wl'),
+      wlErr = document.getElementById('wlErr');
+
+  /* Play can only invite Google accounts, so anything else is a dead sign-up. */
+  var GMAIL = /^[^\s@]+@(gmail|googlemail)\.com$/i;
+
+  function fail(msg){
+    form.classList.add('err');
+    wlErr.textContent = msg; wlErr.hidden = false;
+    wlInput.setAttribute('aria-invalid', 'true');
+    wlInput.focus();
+  }
+  wlInput.addEventListener('input', function(){
+    form.classList.remove('err'); wlErr.hidden = true;
+    wlInput.removeAttribute('aria-invalid');
+  });
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(wlInput.value.trim())) {
-      form.classList.add('err'); wlInput.focus(); return;
+    var v = wlInput.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { fail('Enter your email address.'); return; }
+    if (!GMAIL.test(v)) {
+      fail('Google Play can only invite Google accounts, so this needs to be a Gmail address.');
+      return;
     }
-    form.classList.remove('err');
+    form.classList.remove('err'); wlErr.hidden = true;
+
+    if (SIGNUP_FORM_URL) {
+      window.location.href = SIGNUP_FORM_URL;
+      return;
+    }
+
     form.classList.add('gone');
     document.getElementById('waitDone').classList.add('on');
     document.querySelector('.trust').classList.add('done');
-    document.getElementById('waitNote').textContent =
-      'DESIGN PREVIEW \u2014 this form is not connected to a mailing list yet, so nothing was sent.';
+
+    if (SIGNUP_EMAIL) {
+      window.location.href = 'mailto:' + SIGNUP_EMAIL
+        + '?subject=' + encodeURIComponent('Chiket beta tester')
+        + '&body=' + encodeURIComponent(
+            'I would like to join the Chiket Android closed beta.\n\n'
+            + 'Google account: ' + v + '\n\n'
+            + 'I understand the Founder plan requires using the app daily for 14 days in a row.');
+      document.getElementById('wlMsg').textContent = 'One more step \u2014 send the email.';
+      document.getElementById('waitNote').textContent =
+        'Your mail app should have opened. Your request reaches us when you send it.';
+    } else {
+      document.getElementById('wlMsg').textContent = 'Nothing was sent.';
+      document.getElementById('waitNote').textContent =
+        'DESIGN PREVIEW \u2014 sign-ups are not connected yet, so your address was not recorded.';
+    }
   });
 
   /* ---- pricing: monthly / annual ---- */
