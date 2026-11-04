@@ -13,6 +13,7 @@
 <title>Chiket &mdash; Parking compliance for Chicago drivers</title>
 <meta name="description" content="Chiket monitors Chicago street sweeping, winter parking bans, and permit deadlines, and alerts you before a ticket becomes a boot.">
 <meta name="theme-color" content="#06070a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23FF5A1F'/%3E%3Cpath d='M32 9 14 16v15c0 12.4 7.7 22.8 18 26 10.3-3.2 18-13.6 18-26V16L32 9z' fill='%230b0605'/%3E%3C/svg%3E">
 <script>document.documentElement.className+=" js";</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -837,6 +838,34 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
   .deal li{grid-template-columns:1fr;gap:.3rem}
   .deal b{justify-self:start}
 }
+
+/* --- beta: timing line, spots, OS picker, legal links --- */
+.beta-when{font-size:.9375rem;color:var(--text-2);margin:0 0 1.25rem}
+.beta-when strong{color:var(--flare)}
+.spots{max-width:430px;margin:0 auto 1.5rem}
+.spots-bar{height:5px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:.55rem}
+.spots-bar i{display:block;height:100%;border-radius:999px;
+  background:linear-gradient(90deg,var(--primary),var(--flare));width:var(--pct,0%);
+  transition:width 1s var(--ease-out-expo)}
+.spots-txt{font-size:.8125rem;letter-spacing:.07em;text-transform:uppercase;color:var(--text-3);margin:0}
+.spots-txt b{color:var(--text);font-weight:700}
+
+.os-pick{border:0;padding:0;margin:0 auto 1rem;display:flex;align-items:center;gap:.6rem;
+  flex-wrap:wrap;justify-content:center;width:100%}
+.os-pick legend{float:left;width:100%;text-align:center;font-size:.6875rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--text-3);margin-bottom:.6rem}
+.os-pick label{display:inline-flex;align-items:center;gap:.45rem;cursor:pointer;
+  padding:.5rem .95rem;border:1px solid var(--border);border-radius:999px;
+  background:var(--surface);font-size:.875rem;color:var(--text-2);transition:.25s}
+.os-pick label:hover{border-color:rgba(255,255,255,.18);color:var(--text)}
+.os-pick input{accent-color:var(--primary);width:1rem;height:1rem}
+.os-pick label:has(input:checked){border-color:var(--border-glow);background:var(--primary-dim);color:var(--text)}
+.waitlist{flex-wrap:wrap}
+.waitlist .os-pick{order:-1}
+
+.legal-links{font-size:.8125rem;color:var(--text-3);margin:1rem 0 0}
+.legal-links a{color:var(--text-2);text-decoration:none}
+.legal-links a:hover{color:var(--flare);text-decoration:underline}
 </style>
 </head>
 <body>
@@ -880,8 +909,8 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
     <div class="hero-content">
       <div class="hero-phase" data-phase="1">
         <span class="tag">Chicago &middot; Private beta</span>
-        <h1><span class="ln"><span>The <span class="gradient-text">Compliance Shield</span></span></span><span class="ln"><span>Urban Drivers Need.</span></span></h1>
-        <p class="hero-sub">Never pay a late fee, street sweeping ticket, or boot penalty again.</p>
+        <h1><span class="ln"><span>Know before Chicago</span></span><span class="ln"><span class="gradient-text">tickets, boots or tows you.</span></span></h1>
+        <p class="hero-sub">Winter bans, street sweeping and permit deadlines, tracked automatically.</p>
         <div class="hero-actions"><a class="btn btn-primary btn-lg" href="#pricing">Start Free &mdash; Get Protected</a></div>
       </div>
       <div class="hero-phase" data-phase="2">
@@ -889,8 +918,8 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
         <p class="hero-sub">Monitor street sweeping schedules, winter parking bans, and residential permits automatically.</p>
       </div>
       <div class="hero-phase" data-phase="3">
-        <h1><span class="ln"><span>Never Overpay</span></span><span class="ln"><span class="gradient-text">Again.</span></span></h1>
-        <p class="hero-sub">Auto-pay fines before they double, and stay completely penalty-free.</p>
+        <h1><span class="ln"><span>See what you owe</span></span><span class="ln"><span class="gradient-text">before it doubles.</span></span></h1>
+        <p class="hero-sub">Chiket tracks the fines on your plates and takes you straight to the city&rsquo;s payment page.</p>
         <div class="hero-actions">
           <a class="btn btn-primary btn-lg" href="#pricing">Start Free &mdash; Get Protected</a>
           <a class="btn btn-ghost btn-lg" href="#how-it-works">See How It Works &rarr;</a>
@@ -1090,19 +1119,34 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
     <ul class="deal">
       <li class="give"><b>You get</b><span>The <strong>Founder</strong> plan: every Pro feature,
         free for life. No card now, no card later.</span></li>
-      <li><b>We ask</b><span>That you really use it &mdash; open the app and keep your vehicles
-        current <strong>every day, 14 days in a row</strong>.</span></li>
+      <li><b>We ask</b><span>Stay in the beta <strong>14 days</strong>, use it like a real
+        driver, and tell us what breaks.</span></li>
       <li><b>Gmail only</b><span>Closed testing runs through Google Play, and Play can only
         invite Google accounts. A Gmail address is the one thing we need.</span></li>
     </ul>
 
+    <p class="beta-when">Testing starts just in time for the
+      <strong>Dec 1 Overnight Winter Ban</strong>.</p>
+
+    <div class="spots" id="spots">
+      <div class="spots-bar" id="spotsBar" hidden><i id="spotsFill"></i></div>
+      <p class="spots-txt" id="spotsTxt">50 Founder spots</p>
+    </div>
+
     <form class="waitlist" id="waitForm">
+      <fieldset class="os-pick">
+        <legend>My phone is</legend>
+        <label><input type="radio" name="os" value="android"> Android</label>
+        <label><input type="radio" name="os" value="ios"> iPhone</label>
+      </fieldset>
       <label class="vh" for="wl">Your Gmail address</label>
       <input id="wl" type="email" inputmode="email" autocomplete="email"
              placeholder="you@gmail.com" required aria-describedby="wlErr">
       <button class="btn btn-primary" type="submit">Become a tester</button>
     </form>
     <p class="wl-err" id="wlErr" hidden></p>
+    <p class="legal-links"><a href="/privacy">Privacy Policy</a> &nbsp;&middot;&nbsp;
+      <a href="/beta-terms">Founder Beta Terms</a></p>
     <div class="wl-done" id="waitDone">
       <span class="tick"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
         stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg></span>
@@ -1121,7 +1165,8 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
     <div><h4>Product</h4><ul>
       <li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#fleet">Fleet (B2B)</a></li></ul></div>
     <div><h4>Company</h4><ul>
-      <li><a href="#waitlist">Join the waitlist</a></li><li><a href="#how-it-works">How it works</a></li></ul></div>
+      <li><a href="#waitlist">Join the beta</a></li><li><a href="#how-it-works">How it works</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li><li><a href="/beta-terms">Founder Beta Terms</a></li></ul></div>
   </div>
   <div class="footer-mark" aria-hidden="true">CHIKET</div>
   <div class="footer-bottom">
@@ -1277,6 +1322,26 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
   var SIGNUP_FORM_URL = '';
   var SIGNUP_EMAIL    = '';
 
+  /* Founder spots. SPOTS_TAKEN stays null until there is a real number to show -
+     an invented "37 of 50 gone" is manufactured scarcity, and visitors can tell.
+     Set it to the actual count and the bar appears. */
+  var SPOTS_TOTAL = 50;
+  var SPOTS_TAKEN = null;
+
+  (function(){
+    var txt = document.getElementById('spotsTxt'), bar = document.getElementById('spotsBar');
+    if (typeof SPOTS_TAKEN !== 'number' || SPOTS_TAKEN < 0) {
+      txt.innerHTML = '<b>' + SPOTS_TOTAL + '</b> Founder spots';
+      return;
+    }
+    var left = Math.max(0, SPOTS_TOTAL - SPOTS_TAKEN);
+    bar.hidden = false;
+    document.getElementById('spotsFill').style.setProperty('--pct',
+      Math.min(100, SPOTS_TAKEN / SPOTS_TOTAL * 100) + '%');
+    txt.innerHTML = left ? '<b>' + left + '</b> of ' + SPOTS_TOTAL + ' Founder spots left'
+                         : 'All ' + SPOTS_TOTAL + ' Founder spots taken';
+  })();
+
   var form = document.getElementById('waitForm'),
       wlInput = document.getElementById('wl'),
       wlErr = document.getElementById('wlErr');
@@ -1298,14 +1363,21 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var v = wlInput.value.trim();
+    var osPick = form.querySelector('input[name=os]:checked');
+
+    if (!osPick) { fail('Pick Android or iPhone first \u2014 the beta is Android only.'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { fail('Enter your email address.'); return; }
-    if (!GMAIL.test(v)) {
+
+    var isAndroid = osPick.value === 'android';
+    /* Gmail is only required for Android: Play invites Google accounts. An iPhone
+       lead goes on the iOS list, where any address works - no reason to reject it. */
+    if (isAndroid && !GMAIL.test(v)) {
       fail('Google Play can only invite Google accounts, so this needs to be a Gmail address.');
       return;
     }
     form.classList.remove('err'); wlErr.hidden = true;
 
-    if (SIGNUP_FORM_URL) {
+    if (SIGNUP_FORM_URL && isAndroid) {
       window.location.href = SIGNUP_FORM_URL;
       return;
     }
@@ -1314,13 +1386,25 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
     document.getElementById('waitDone').classList.add('on');
     document.querySelector('.trust').classList.add('done');
 
+    if (!isAndroid) {
+      document.getElementById('wlMsg').textContent = 'You\u2019re on the iOS list.';
+      document.getElementById('waitNote').textContent =
+        'The beta is Android only for now. We\u2019ll email you when there is an iPhone build.';
+      if (SIGNUP_EMAIL) {
+        window.location.href = 'mailto:' + SIGNUP_EMAIL
+          + '?subject=' + encodeURIComponent('Chiket iOS waitlist')
+          + '&body=' + encodeURIComponent('Put me on the iOS list.\n\nEmail: ' + v);
+      }
+      return;
+    }
+
     if (SIGNUP_EMAIL) {
       window.location.href = 'mailto:' + SIGNUP_EMAIL
         + '?subject=' + encodeURIComponent('Chiket beta tester')
         + '&body=' + encodeURIComponent(
             'I would like to join the Chiket Android closed beta.\n\n'
             + 'Google account: ' + v + '\n\n'
-            + 'I understand the Founder plan requires using the app daily for 14 days in a row.');
+            + 'I understand the Founder plan requires staying in the beta for 14 days.');
       document.getElementById('wlMsg').textContent = 'One more step \u2014 send the email.';
       document.getElementById('waitNote').textContent =
         'Your mail app should have opened. Your request reaches us when you send it.';

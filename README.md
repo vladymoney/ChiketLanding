@@ -154,6 +154,7 @@ Play requires two publicly reachable URLs:
 ```
 https://<your-domain>/privacy
 https://<your-domain>/delete-account
+https://<your-domain>/beta-terms
 ```
 
 The page explains where the **Delete account** button is inside the app. It is static,
@@ -172,6 +173,7 @@ have been shown the landing page instead of the policy.
 | --- | --- |
 | `index.html` | The entire page, ~3.3 MB with all assets inlined |
 | `privacy.html` | Privacy policy, served at `/privacy` for Google Play |
+| `beta-terms.html` | Founder Beta Terms, served at `/beta-terms` |
 | `delete-account.html` | Account-deletion instructions, served at `/delete-account` for Google Play |
 | `og.jpg` | Social preview image for link unfurls |
 | `Dockerfile` | Precompresses the page, then serves it from `nginx:1.27-alpine` |
