@@ -152,7 +152,7 @@ the outside, which is the point; the domain keeps working.
 Play requires two publicly reachable URLs:
 
 ```
-https://<your-domain>/privacy
+https://<your-domain>/privacy-policy
 https://<your-domain>/delete-account
 https://<your-domain>/beta-terms
 ```
@@ -162,7 +162,7 @@ needs no backend, and works with JavaScript disabled.
 
 Note that `location /` returns **404** for unknown paths rather than falling back to
 `index.html`. That is deliberate: with a catch-all fallback, `/delete-account` and
-`/privacy` answered 200 with the marketing page, so a reviewer following the link would
+`/privacy-policy` answered 200 with the marketing page, so a reviewer following the link would
 have been shown the landing page instead of the policy.
 
 ---
@@ -172,7 +172,7 @@ have been shown the landing page instead of the policy.
 | File | Purpose |
 | --- | --- |
 | `index.html` | The entire page, ~3.3 MB with all assets inlined |
-| `privacy.html` | Privacy policy, served at `/privacy` for Google Play |
+| `privacy-policy.html` | Privacy policy, served at `/privacy-policy` for Google Play |
 | `beta-terms.html` | Founder Beta Terms, served at `/beta-terms` |
 | `delete-account.html` | Account-deletion instructions, served at `/delete-account` for Google Play |
 | `og.jpg` | Social preview image for link unfurls |
