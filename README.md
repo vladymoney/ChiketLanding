@@ -174,6 +174,7 @@ have been shown the landing page instead of the policy.
 | `index.html` | The entire page, ~3.3 MB with all assets inlined |
 | `privacy-policy.html` | Privacy policy, served at `/privacy-policy` for Google Play |
 | `beta-terms.html` | Founder Beta Terms, served at `/beta-terms` |
+| `beta.html` | Two-step tester onboarding for ad traffic, at `/beta.html` and `/beta` |
 | `delete-account.html` | Account-deletion instructions, served at `/delete-account` for Google Play |
 | `og.jpg` | Social preview image for link unfurls |
 | `Dockerfile` | Precompresses the page, then serves it from `nginx:1.27-alpine` |

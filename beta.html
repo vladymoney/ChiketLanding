@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Join the Chiket Android beta</title>
+<meta name="description" content="Two quick steps to join the Chiket Android beta and claim your Founder account.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#06070a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23FF5A1F'/%3E%3Cpath d='M32 9 14 16v15c0 12.4 7.7 22.8 18 26 10.3-3.2 18-13.6 18-26V16L32 9z' fill='%230b0605'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme:dark;
+    --bg:#06070a; --surface:#0d0e12; --surface-2:#13141a;
+    --border:rgba(255,255,255,.08); --border-strong:rgba(255,255,255,.14);
+    --primary:#FF5A1F; --primary-dim:rgba(255,90,31,.12); --primary-glow:rgba(255,90,31,.35);
+    --text:#fff; --text-2:rgba(255,255,255,.62); --text-3:rgba(255,255,255,.38);
+    --success:#00e676;
+    --font:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    min-height:100vh;font-family:var(--font);color:var(--text);
+    background:var(--bg);
+    background-image:radial-gradient(120% 60% at 50% -10%,rgba(255,90,31,.16),transparent 60%),
+      linear-gradient(#0b0806 0%,#08070a 20%,#06070a 44%,#06080c 66%,#05070e 85%,#04060f 100%);
+    background-attachment:fixed;
+    line-height:1.5;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:480px;margin:0 auto;padding:20px 16px 48px}
+  header{display:flex;align-items:center;justify-content:space-between;padding:4px 0 28px}
+  .logo{font-size:22px;font-weight:800;letter-spacing:-.03em;color:var(--text);text-decoration:none}
+  .logo em{font-style:normal;color:var(--primary)}
+  .tag{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--primary)}
+  h1{font-size:34px;line-height:1.08;font-weight:900;letter-spacing:-.03em;margin:10px 0 12px}
+  .lede{font-size:16px;color:var(--text-2)}
+  .card{
+    background:var(--surface);border:1px solid var(--border-strong);border-radius:14px;
+    padding:20px;margin-top:16px;
+  }
+  .step-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .num{
+    flex:none;width:30px;height:30px;border-radius:999px;display:grid;place-items:center;
+    font-size:14px;font-weight:800;color:#0b0605;background:var(--primary);
+  }
+  .card h2{font-size:18px;font-weight:800;letter-spacing:-.01em}
+  .card p{font-size:15px;color:var(--text-2);margin-bottom:14px}
+  .card p b{color:var(--text);font-weight:600}
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+    min-height:52px;padding:14px 24px;border-radius:999px;border:0;cursor:pointer;
+    font:600 16px/1.2 var(--font);text-decoration:none;text-align:center;
+  }
+  .btn-primary{
+    color:#0b0605;
+    background:linear-gradient(#ff7238,#ff5a1f 60%,#f04e14);
+    box-shadow:inset 0 1px 0 rgba(255,214,190,.42),0 8px 28px -10px var(--primary-glow);
+  }
+  .btn-ghost{color:var(--text);background:var(--surface-2);border:1px solid var(--border-strong)}
+  .btn:active{transform:translateY(1px)}
+  .hint{font-size:13px;color:var(--text-3);margin-top:10px}
+  .deal{border-color:rgba(255,90,31,.3);background:linear-gradient(180deg,rgba(255,90,31,.08),rgba(255,90,31,.02))}
+  .deal p{margin-bottom:0}
+  .check{color:var(--success);font-weight:700}
+  .notice{
+    border-color:rgba(255,90,31,.45);background:var(--primary-dim);
+  }
+  .notice h2{margin-bottom:6px}
+  .manual{margin-top:14px;font-size:14px;color:var(--text-2)}
+  .manual ol{padding-left:20px;margin-top:6px}
+  .manual li{margin:4px 0}
+  .kbd{display:inline-block;padding:1px 7px;border-radius:6px;background:var(--surface-2);border:1px solid var(--border-strong);color:var(--text);font-weight:600}
+  footer{margin-top:28px;font-size:13px;color:var(--text-3);text-align:center}
+  footer a{color:var(--text-2)}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="logo" href="https://chiket.app/">Chiket<em>.app</em></a>
+    <span class="tag">Android beta</span>
+  </header>
+
+  <span class="tag">Chicago · Founder spots</span>
+  <h1>You're almost in.</h1>
+  <p class="lede">Two quick steps on your Android phone and your Founder account is locked in.</p>
+
+  <!-- Shown inside Facebook / Instagram in-app browsers -->
+  <section id="inapp" class="card notice" hidden>
+    <h2>First, open this page in Chrome</h2>
+    <p>You're inside the Facebook browser, where you aren't signed in to Google. Google Play needs your Google account, so we'll switch you to Chrome.</p>
+    <a id="openChrome" class="btn btn-primary" href="#">Open in Chrome</a>
+    <div class="manual">
+      Didn't switch? Do it manually:
+      <ol>
+        <li>Tap <span class="kbd">⋮</span> in the top-right corner</li>
+        <li>Choose <b>Open in Chrome</b> (or "Open in browser")</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Shown on iPhone -->
+  <section id="ios" class="card notice" hidden>
+    <h2>This beta is Android-only</h2>
+    <p>You're on an iPhone, so you're on our iOS waitlist. We'll email you as soon as iPhone testing opens.</p>
+  </section>
+
+  <div id="steps">
+    <section class="card">
+      <div class="step-head"><span class="num">1</span><h2>Join the tester group</h2></div>
+      <p>Use the <b>same Google account</b> as the Play Store on your phone. Tap <b>"Join group"</b> on the next page.</p>
+      <a class="btn btn-primary" href="https://groups.google.com/g/chiket-teseters-group" target="_blank" rel="noopener">Join the tester group</a>
+      <p class="hint">Already joined? Go straight to step 2.</p>
+    </section>
+
+    <section class="card">
+      <div class="step-head"><span class="num">2</span><h2>Become a tester &amp; install</h2></div>
+      <p>Tap <b>"Become a tester"</b>, then <b>download Chiket on Google Play</b>.</p>
+      <a class="btn btn-primary" href="https://play.google.com/apps/testing/com.viti00.chiket" target="_blank" rel="noopener">Become a tester on Google Play</a>
+      <p class="hint">Seeing "app not available"? Step 1 isn't done yet, or the phone is signed in with a different Google account.</p>
+    </section>
+
+    <section class="card deal">
+      <div class="step-head"><span class="num">✓</span><h2>The Founder deal</h2></div>
+      <p>Stay in the beta for <b>14 days</b> from the moment you become a tester, use Chiket like you normally would, and tell us what breaks. Do that and you keep <b>every Pro feature, free for life</b>.</p>
+    </section>
+  </div>
+
+  <footer>
+    Questions? <a href="mailto:chiketapp@gmail.com">chiketapp@gmail.com</a> · <a href="https://chiket.app/privacy-policy">Privacy</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var ua = navigator.userAgent || "";
+  var isAndroid = /Android/i.test(ua);
+  var isIOS = /iPhone|iPad|iPod/i.test(ua);
+  var inApp = /FBAN|FBAV|FB_IAB|FBIOS|Instagram|Messenger|Threads/i.test(ua) ||
+              (isAndroid && /; wv\)/.test(ua));
+
+  var here = location.host + location.pathname;
+  var intentUrl = "intent://" + here + "?from=app#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=" +
+                  encodeURIComponent(location.href) + ";end";
+
+  if (isIOS) {
+    document.getElementById("ios").hidden = false;
+    document.getElementById("steps").hidden = true;
+    return;
+  }
+
+  if (isAndroid && inApp) {
+    document.getElementById("inapp").hidden = false;
+    document.getElementById("steps").hidden = true;
+    var btn = document.getElementById("openChrome");
+    btn.href = intentUrl;
+    // Try once automatically; the button stays as a tap-to-open fallback.
+    setTimeout(function () { location.href = intentUrl; }, 400);
+  }
+})();
+</script>
+</body>
+</html>
