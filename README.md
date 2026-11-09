@@ -176,6 +176,8 @@ have been shown the landing page instead of the policy.
 | `beta-terms.html` | Founder Beta Terms, served at `/beta-terms` |
 | `beta.html` | Two-step tester onboarding for ad traffic, at `/beta.html` and `/beta` |
 | `delete-account.html` | Account-deletion instructions, served at `/delete-account` for Google Play |
+| `robots.txt` | Crawl rules, points at the sitemap |
+| `sitemap.xml` | The four indexable URLs |
 | `og.jpg` | Social preview image for link unfurls |
 | `Dockerfile` | Precompresses the page, then serves it from `nginx:1.27-alpine` |
 | `nginx.conf` | `gzip_static`, `no-cache`, `/healthz`, `/delete-account`, 404 on unknown paths |

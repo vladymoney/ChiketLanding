@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Ad landing page for closed-beta traffic. It also carries a noindex meta tag;
+# it is not Disallow'd here, because a disallowed page cannot be crawled and so
+# its noindex would never be seen.
+
+Sitemap: https://chiket.app/sitemap.xml
