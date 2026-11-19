@@ -82,7 +82,7 @@ footer a:hover{color:var(--flare)}
 <header><a class="logo" href="/">Chiket<em>.app</em></a></header>
 
 <h1>Privacy Policy</h1>
-<p class="updated">Last updated: 8 October 2026</p>
+<p class="updated">Last updated: 19 November 2026</p>
 
 <p class="lede">Chiket (&ldquo;we&rdquo;, &ldquo;us&rdquo;) helps drivers in Chicago avoid parking
 fines by watching street sweeping schedules, winter parking bans, permit expiry dates and unpaid
@@ -93,11 +93,12 @@ sees it, and how you delete it. It applies to the Chiket mobile app and this web
   <h2>Contents</h2>
   <ol>
     <li><a href="#collect">What we collect</a></li>
+    <li><a href="#location">Location data</a></li>
     <li><a href="#why">Why we collect it</a></li>
     <li><a href="#share">Who else sees your data</a></li>
     <li><a href="#notdo">What we do not do</a></li>
     <li><a href="#keep">How long we keep it</a></li>
-    <li><a href="#delete">Deleting your account</a></li>
+    <li><a href="#delete">Deleting your data or your account</a></li>
     <li><a href="#rights">Your rights</a></li>
     <li><a href="#security">Security</a></li>
     <li><a href="#children">Children</a></li>
@@ -123,9 +124,14 @@ sees it, and how you delete it. It applies to the Chiket mobile app and this web
         <td>The parking tickets and fines the City of Chicago holds against the plates you add:
             ticket numbers, violation descriptions, dates, amounts due, notice level and hearing
             deadlines. This comes from the city, not from you.</td></tr>
+    <tr><td><strong>Location</strong></td>
+        <td>Your phone's precise (GPS) and approximate location, only with your permission and only
+            for the two features described in <a href="#location">Location data</a> below. One of
+            them, camera alerts, uses location in the background when you switch it on.</td></tr>
     <tr><td><strong>Parking zones</strong></td>
         <td>The ward and section you ask us to watch &mdash; effectively the block where you park.
-            You pick this yourself in the app.</td></tr>
+            You pick it on a map, or let the app find it from your current location. If you use
+            &ldquo;Mark as parked here&rdquo;, we keep that spot for 14 days.</td></tr>
     <tr><td><strong>Permits</strong></td>
         <td>The permit types you track and their expiry dates, so we can remind you.</td></tr>
     <tr><td><strong>Device</strong></td>
@@ -137,6 +143,20 @@ sees it, and how you delete it. It applies to the Chiket mobile app and this web
     <tr><td><strong>Support and appeals</strong></td>
         <td>If you submit a ticket appeal, whatever you enter: your contact email, phone number and
             the tickets you selected.</td></tr>
+    <tr><td><strong>Enforcement reports</strong></td>
+        <td>If you report a parking officer nearby, the ward and section you report, and that it came
+            from your account. Other users only see the block and the time, never who reported it.</td></tr>
+    <tr><td><strong>Notification history</strong></td>
+        <td>The alerts we sent you, so you can read them again in the app. Kept for 90 days.</td></tr>
+    <tr><td><strong>App activity</strong></td>
+        <td>Which screens you open, when the app is opened or sent to the background, and which
+            actions you take (for example &ldquo;added a permit&rdquo;), with your platform and app
+            version. It contains no location. We use it to fix problems and improve the app. Kept for
+            180 days.</td></tr>
+    <tr><td><strong>Crash reports</strong></td>
+        <td>When the app or our server hits an error: what went wrong, the app version, your phone's
+            model and operating-system version, and your account if you were signed in. Stored on our
+            own servers, not sent to a third-party crash service. Kept for 30 days (summaries for 90).</td></tr>
   </tbody>
 </table>
 
@@ -148,8 +168,8 @@ sees it, and how you delete it. It applies to the Chiket mobile app and this web
 
 <h3>What we do not collect</h3>
 <ul>
-  <li><strong>No device location.</strong> The app never reads your GPS or location. The parking
-      zone is one you choose from a list or a map yourself.</li>
+  <li><strong>No location history.</strong> We never store where you have been. See
+      <a href="#location">Location data</a> for exactly when the app uses your location.</li>
   <li><strong>No card details.</strong> Payments are handled entirely by Stripe on their own
       pages. Card numbers never reach our servers.</li>
   <li><strong>No photos, camera, contacts, calendar, microphone or files.</strong> The app does
@@ -158,7 +178,45 @@ sees it, and how you delete it. It applies to the Chiket mobile app and this web
       device fingerprinting.</li>
 </ul>
 
-<h2 id="why">2. Why we collect it</h2>
+<h2 id="location">2. Location data</h2>
+
+<p>Chiket asks for your phone's location (precise and approximate) and uses it for two features
+only. Both are optional: the rest of the app works without location, and you can withdraw the
+permission at any time in your phone's settings.</p>
+
+<h3>Finding your street-sweeping zone (foreground)</h3>
+<p>When you tap to find your zone on the <strong>Zones</strong> screen, the app reads your current
+location once and sends those coordinates to our server, which looks up the Chicago ward and
+section you are in and returns it. <strong>The coordinates are used for that single lookup and are
+not saved</strong> &mdash; not in our database and not in our logs. What we keep is only the ward and
+section, if you then choose to watch it or mark it as where you parked. This happens only while
+the app is open and only when you tap.</p>
+
+<h3>Red light and speed camera alerts (background)</h3>
+<p>If you switch on <strong>Camera alerts</strong>, the app asks for location access &ldquo;all the
+time&rdquo; (Android) or &ldquo;Always&rdquo; (iPhone), so it can warn you while you drive with the
+screen off or the app in the background. While alerts are on:</p>
+<ul>
+  <li>Your phone downloads the public list of City of Chicago red light and speed cameras from us,
+      and compares your position, heading and speed against that list <strong>on your phone</strong>.</li>
+  <li><strong>Your location is never sent to our servers or to anyone else.</strong> The last few
+      positions are held in memory only to work out your direction of travel.</li>
+  <li>To avoid repeating an alert, the app saves on your phone which camera it last warned you about
+      and when. This stays on the device and never leaves it.</li>
+  <li>On Android a persistent notification shows while location is being used in the background;
+      on iPhone the system location indicator shows.</li>
+</ul>
+<p>Switching <strong>Camera alerts</strong> off stops location tracking immediately. Signing out
+also stops it and removes the downloaded camera list. Uninstalling the app removes everything it
+saved on your phone.</p>
+
+<div class="note good">
+  <p><strong>In short:</strong> we never store your location or location history, never share it,
+  never sell it, and never use it for advertising. Location is used only to find your zone when you
+  ask, and on your own phone for camera alerts you switch on.</p>
+</div>
+
+<h2 id="why">3. Why we collect it</h2>
 <ul>
   <li><strong>To run your account</strong> &mdash; sign you in, let you reset a password.</li>
   <li><strong>To check your vehicles</strong> &mdash; once a day we ask the City of Chicago
@@ -168,10 +226,13 @@ sees it, and how you delete it. It applies to the Chiket mobile app and this web
       at which Chicago boots a car.</li>
   <li><strong>To handle payment</strong> if you choose a paid plan.</li>
   <li><strong>To process an appeal</strong> you ask us to submit.</li>
+  <li><strong>To use your location</strong> for the zone lookup and camera alerts described above.</li>
+  <li><strong>To keep the app working</strong> &mdash; app activity and crash reports help us find and
+      fix bugs.</li>
 </ul>
 <p>We do not use your data for advertising, profiling or any purpose unrelated to the above.</p>
 
-<h2 id="share">3. Who else sees your data</h2>
+<h2 id="share">4. Who else sees your data</h2>
 
 <p>We do not sell your data and we do not share it with advertisers or data brokers. It reaches
 these parties only because the service cannot work otherwise:</p>
@@ -197,11 +258,14 @@ these parties only because the service cannot work otherwise:</p>
         <td>To send password resets, and to deliver an appeal you submit.</td></tr>
     <tr><td><strong>Mapbox</strong></td>
         <td>Only the address text you type when searching for a zone</td>
-        <td>To turn an address into a location. No plate, account or device data is sent.</td></tr>
+        <td>To turn an address into a location. We send it from our servers. No plate, account,
+            device or location data is sent.</td></tr>
   </tbody>
 </table>
 
-<p>We also publish schedule data drawn from the City of Chicago's public open-data portal. That is
+<p>Your device location is not shared with any of these parties.</p>
+
+<p>We also publish schedule and camera data drawn from the City of Chicago's public open-data portal. That is
 a one-way read of public information &mdash; <strong>nothing about you is sent to it.</strong></p>
 
 <p>We may disclose data if the law requires it, or to protect our rights or someone's safety.</p>
@@ -213,22 +277,32 @@ a one-way read of public information &mdash; <strong>nothing about you is sent t
   privacy policy, and they see your connection directly.</p>
 </div>
 
-<h2 id="notdo">4. What we do not do</h2>
+<h2 id="notdo">5. What we do not do</h2>
 <ul>
   <li><strong>We do not sell your personal data.</strong> Ever, to anyone.</li>
-  <li><strong>There is no analytics, tracking or advertising software in the app.</strong> No
-      Google Analytics, no Facebook SDK, no attribution or ad network, no crash reporting that
-      sends your data anywhere.</li>
+  <li><strong>There is no third-party analytics, tracking or advertising software in the app.</strong>
+      No Google Analytics, no Facebook SDK, no attribution or ad network, no third-party crash
+      reporting. App activity and crash reports go only to our own servers.</li>
+  <li><strong>We do not track your location</strong> or keep any record of where you have been.</li>
   <li><strong>We do not track you across other apps or websites.</strong></li>
-  <li><strong>We do not store your personal data on your device.</strong> The only thing saved
-      locally is your sign-in token, kept in your phone's secure storage.</li>
+  <li><strong>We keep very little on your device.</strong> Your sign-in token is kept in your phone's
+      secure storage. If camera alerts are on, the public camera list and the last camera you were
+      warned about are saved too; uninstalling the app removes them.</li>
   <li><strong>We do not send marketing SMS.</strong> The app has no SMS capability at all.</li>
   <li><strong>We do not use social sign-in</strong>, so no social network is told you use Chiket.</li>
 </ul>
 
-<h2 id="keep">5. How long we keep it</h2>
-<p>We keep your data for as long as your account exists, because the service is a continuous watch
-&mdash; we cannot warn you about next month's sweeping if we forget your block this month.</p>
+<h2 id="keep">6. How long we keep it</h2>
+<p>We keep your vehicles, zones and permits for as long as your account exists, because the service
+is a continuous watch &mdash; we cannot warn you about next month's sweeping if we forget your block
+this month. Some data is deleted sooner on its own:</p>
+<ul>
+  <li><strong>Location coordinates</strong> &mdash; not kept at all.</li>
+  <li><strong>&ldquo;Parked here&rdquo; spots</strong> &mdash; 14 days.</li>
+  <li><strong>Crash reports</strong> &mdash; 30 days (summaries 90 days).</li>
+  <li><strong>Notification history</strong> &mdash; 90 days.</li>
+  <li><strong>App activity</strong> &mdash; 180 days.</li>
+</ul>
 <p>When you delete your account, we delete the data associated with it. Two exceptions:</p>
 <ul>
   <li><strong>Payment records.</strong> If you ever paid, Stripe retains the transaction record and
@@ -236,41 +310,49 @@ a one-way read of public information &mdash; <strong>nothing about you is sent t
   <li><strong>Anything the law requires us to keep</strong>, for as long as it requires.</li>
 </ul>
 
-<h2 id="delete">6. Deleting your account</h2>
+<h2 id="delete">7. Deleting your data or your account</h2>
+<h3>Delete data, keep the account</h3>
+<p>You can remove a car, a watched block or a permit yourself in the app at any time, and switch off
+camera alerts to stop all use of location in the background. To have us delete some or all of the other
+data we hold about you without closing your account, use the
+<a href="/delete-data">data deletion request form</a> or email
+<a href="mailto:privacy@chiket.app">privacy@chiket.app</a>. We complete requests within 30 days.</p>
+<h3>Delete the account</h3>
 <p>You can delete your Chiket account yourself, from inside the app: open <strong>Profile</strong>,
 scroll to the bottom, and tap <strong>Delete account</strong>. It is permanent.</p>
 <p>Full instructions are on the <a href="/delete-account">account deletion page</a>.</p>
 <p>If you have a paid subscription, cancel it before deleting the account, or billing may continue.</p>
 
-<h2 id="rights">7. Your rights</h2>
+<h2 id="rights">8. Your rights</h2>
 <p>Depending on where you live, you may have the right to access the personal data we hold about
 you, correct it, delete it, object to how we use it, or receive a copy of it.</p>
-<p>You can change your password and delete your account in the app. For anything else, email us at
+<p>You can change your password, remove your cars, zones and permits, and delete your account in the
+app; you can ask us to <a href="/delete-data">delete your data</a> while keeping the account. For anything else, email us at
 the address below and we will respond. We will not charge you or make it difficult.</p>
 
-<h2 id="security">8. Security</h2>
+<h2 id="security">9. Security</h2>
 <p>Passwords are stored as one-way hashes and are never readable by us or by anyone with access to
 our database. Card details never touch our systems. Access to production data is limited to the
 people who run the service.</p>
 <p>No system is perfectly secure, and we will not pretend otherwise. If we discover a breach
 affecting your data, we will tell you.</p>
 
-<h2 id="children">9. Children</h2>
+<h2 id="children">10. Children</h2>
 <p>Chiket is for licensed drivers and vehicle owners. It is not directed at children, and we do not
 knowingly collect data from anyone under 16. If you believe a child has given us personal data,
 contact us and we will remove it.</p>
 
-<h2 id="changes">10. Changes to this policy</h2>
+<h2 id="changes">11. Changes to this policy</h2>
 <p>If we change how we handle your data, we will update this page and change the date at the top.
 Material changes will be announced in the app.</p>
 
-<h2 id="contact">11. Contact</h2>
+<h2 id="contact">12. Contact</h2>
 <p>For any question about this policy, or to exercise any of the rights above, email
 <a href="mailto:privacy@chiket.app">privacy@chiket.app</a>.</p>
 
 <footer>
   <span>&copy; 2026 Chiket</span>
-  <span><a href="/delete-account">Delete your account</a> &nbsp;&middot;&nbsp; <a href="/">chiket.app</a></span>
+  <span><a href="/delete-data">Delete your data</a> &nbsp;&middot;&nbsp; <a href="/delete-account">Delete your account</a> &nbsp;&middot;&nbsp; <a href="/">chiket.app</a></span>
 </footer>
 
 </div>

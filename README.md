@@ -154,6 +154,7 @@ Play requires two publicly reachable URLs:
 ```
 https://<your-domain>/privacy-policy
 https://<your-domain>/delete-account
+https://<your-domain>/delete-data
 https://<your-domain>/beta-terms
 ```
 
@@ -176,8 +177,9 @@ have been shown the landing page instead of the policy.
 | `beta-terms.html` | Founder Beta Terms, served at `/beta-terms` |
 | `beta.html` | Two-step tester onboarding for ad traffic, at `/beta.html` and `/beta` |
 | `delete-account.html` | Account-deletion instructions, served at `/delete-account` for Google Play |
+| `delete-data.html` | Request to delete data while keeping the account, at `/delete-data` for Google Play. The form opens the visitor's mail app addressed to privacy@chiket.app |
 | `robots.txt` | Crawl rules, points at the sitemap |
-| `sitemap.xml` | The four indexable URLs |
+| `sitemap.xml` | The five indexable URLs |
 | `og.jpg` | Social preview image for link unfurls |
 | `Dockerfile` | Precompresses the page, then serves it from `nginx:1.27-alpine` |
 | `nginx.conf` | `gzip_static`, `no-cache`, `/healthz`, `/delete-account`, 404 on unknown paths |

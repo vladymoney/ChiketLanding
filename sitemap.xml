@@ -8,7 +8,7 @@
   </url>
   <url>
     <loc>https://chiket.app/privacy-policy</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -21,6 +21,12 @@
   <url>
     <loc>https://chiket.app/delete-account</loc>
     <lastmod>2026-11-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://chiket.app/delete-data</loc>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
