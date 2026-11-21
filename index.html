@@ -867,6 +867,9 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
 .legal-links{font-size:.8125rem;color:var(--text-3);margin:1rem 0 0}
 .legal-links a{color:var(--text-2);text-decoration:none}
 .legal-links a:hover{color:var(--flare);text-decoration:underline}
+
+/* --- android: not open yet --- */
+.os-note{font-size:.8125rem;color:var(--flare);margin:.85rem 0 0}
 </style>
 </head>
 <body>
@@ -1112,18 +1115,16 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
 
 <section class="trust" id="waitlist"><div class="container">
   <div class="reveal" data-rv="scale">
-    <div class="trust-label">Android closed beta</div>
-    <h3>Test Chiket for 14 days.<br>Keep Pro free, for life.</h3>
-    <p>We're opening closed testing on Android. Test it properly and your account becomes a
-      <strong>Founder</strong> account &mdash; permanently.</p>
+    <div class="trust-label">iPhone beta</div>
+    <h3>The iPhone beta is open.<br>Android is next.</h3>
+    <p>Join the beta on iPhone and your account becomes a <strong>Founder</strong> account.
+      On Android, leave your email and we&rsquo;ll tell you the day it lands.</p>
 
     <ul class="deal">
-      <li class="give"><b>You get</b><span>The <strong>Founder</strong> plan: every Pro feature,
-        free for life. No card now, no card later.</span></li>
-      <li><b>We ask</b><span>Stay in the beta <strong>14 days</strong>, use it like a real
-        driver, and tell us what breaks.</span></li>
-      <li><b>Gmail only</b><span>Closed testing runs through Google Play, and Play can only
-        invite Google accounts. A Gmail address is the one thing we need.</span></li>
+      <li class="give"><b>iPhone</b><span>Join the beta and keep the <strong>Founder</strong>
+        plan: every Pro feature, free for life. No card now, no card later.</span></li>
+      <li><b>Android</b><span>Not open yet. Leave your email and we&rsquo;ll write to you the
+        day Chiket is on Google Play.</span></li>
     </ul>
 
     <p class="beta-when">Testing starts just in time for the
@@ -1140,12 +1141,13 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
         <label><input type="radio" name="os" value="android"> Android</label>
         <label><input type="radio" name="os" value="ios"> iPhone</label>
       </fieldset>
-      <label class="vh" for="wl">Your Gmail address</label>
+      <label class="vh" for="wl">Your email address</label>
       <input id="wl" type="email" inputmode="email" autocomplete="email"
-             placeholder="you@gmail.com" required aria-describedby="wlErr">
-      <button class="btn btn-primary" type="submit">Become a tester</button>
+             placeholder="you@example.com" required aria-describedby="wlErr">
+      <button class="btn btn-primary" type="submit">Join the iPhone beta</button>
     </form>
     <p class="wl-err" id="wlErr" hidden></p>
+    <p class="os-note" id="osNote" hidden>Coming soon to Google Play.</p>
     <p class="legal-links"><a href="/privacy-policy">Privacy Policy</a> &nbsp;&middot;&nbsp;
       <a href="/beta-terms">Founder Beta Terms</a></p>
     <div class="wl-done" id="waitDone">
@@ -1153,7 +1155,7 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
         stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg></span>
       <span class="wl-msg" id="wlMsg">You&rsquo;re in.</span>
     </div>
-    <p class="built" id="waitNote">Chicago &middot; Android first</p>
+    <p class="built" id="waitNote">Chicago &middot; iPhone first</p>
   </div>
 </div></section>
 
@@ -1314,14 +1316,11 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
   var phone = document.querySelector('.phone-outer');
   if (phone) phone.style.setProperty('--phone-spill', SPILL[0]);
 
-  /* ---- closed-beta sign-up ----
-     Where sign-ups go. Set exactly one; leave both empty and the form says plainly
-     that it is not connected rather than pretending a submission happened.
-       SIGNUP_FORM_URL - a Google Form. Best option: Play Console wants a list of
-                         tester Google accounts, and a Form gives you that as a sheet.
-       SIGNUP_EMAIL    - hands off to the visitor's mail app with the address filled in. */
-  var SIGNUP_FORM_URL = '';
-  var SIGNUP_EMAIL    = 'info@chiket.app';
+  /* ---- beta sign-up ----
+     Posts straight to the Make automation. Verified it answers the browser's CORS
+     preflight with access-control-allow-origin:* and allows content-type, so the
+     JSON POST goes through from the page rather than failing at OPTIONS. */
+  var SIGNUP_WEBHOOK = 'https://hook.us2.make.com/vx1eavx8yxqzvh5x6c5wvj6jk1pp3kf4';
 
   /* Founder spots. SPOTS_TAKEN stays null until there is a real number to show -
      an invented "37 of 50 gone" is manufactured scarcity, and visitors can tell.
@@ -1347,9 +1346,6 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
       wlInput = document.getElementById('wl'),
       wlErr = document.getElementById('wlErr');
 
-  /* Play can only invite Google accounts, so anything else is a dead sign-up. */
-  var GMAIL = /^[^\s@]+@(gmail|googlemail)\.com$/i;
-
   function fail(msg){
     form.classList.add('err');
     wlErr.textContent = msg; wlErr.hidden = false;
@@ -1361,59 +1357,44 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
     wlInput.removeAttribute('aria-invalid');
   });
 
+  /* Android is not open yet, so say so the moment it is picked rather than after submit. */
+  var osNote = document.getElementById('osNote');
+  form.querySelectorAll('input[name=os]').forEach(function(r){
+    r.addEventListener('change', function(){ osNote.hidden = r.value !== 'android'; });
+  });
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var v = wlInput.value.trim();
     var osPick = form.querySelector('input[name=os]:checked');
 
-    if (!osPick) { fail('Pick Android or iPhone first \u2014 the beta is Android only.'); return; }
+    if (!osPick) { fail('Pick Android or iPhone first.'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { fail('Enter your email address.'); return; }
 
     var isAndroid = osPick.value === 'android';
-    /* Gmail is only required for Android: Play invites Google accounts. An iPhone
-       lead goes on the iOS list, where any address works - no reason to reject it. */
-    if (isAndroid && !GMAIL.test(v)) {
-      fail('Google Play can only invite Google accounts, so this needs to be a Gmail address.');
-      return;
-    }
     form.classList.remove('err'); wlErr.hidden = true;
 
-    if (SIGNUP_FORM_URL && isAndroid) {
-      window.location.href = SIGNUP_FORM_URL;
-      return;
-    }
+    var btn = form.querySelector('button[type=submit]');
+    var label = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending\u2026';
 
-    form.classList.add('gone');
-    document.getElementById('waitDone').classList.add('on');
-    document.querySelector('.trust').classList.add('done');
-
-    if (!isAndroid) {
-      document.getElementById('wlMsg').textContent = 'You\u2019re on the iOS list.';
-      document.getElementById('waitNote').textContent =
-        'The beta is Android only for now. We\u2019ll email you when there is an iPhone build.';
-      if (SIGNUP_EMAIL) {
-        window.location.href = 'mailto:' + SIGNUP_EMAIL
-          + '?subject=' + encodeURIComponent('Chiket iOS waitlist')
-          + '&body=' + encodeURIComponent('Put me on the iOS list.\n\nEmail: ' + v);
-      }
-      return;
-    }
-
-    if (SIGNUP_EMAIL) {
-      window.location.href = 'mailto:' + SIGNUP_EMAIL
-        + '?subject=' + encodeURIComponent('Chiket beta tester')
-        + '&body=' + encodeURIComponent(
-            'I would like to join the Chiket Android closed beta.\n\n'
-            + 'Google account: ' + v + '\n\n'
-            + 'I understand the Founder plan requires staying in the beta for 14 days.');
-      document.getElementById('wlMsg').textContent = 'One more step \u2014 send the email.';
-      document.getElementById('waitNote').textContent =
-        'Your mail app should have opened. Your request reaches us when you send it.';
-    } else {
-      document.getElementById('wlMsg').textContent = 'Nothing was sent.';
-      document.getElementById('waitNote').textContent =
-        'DESIGN PREVIEW \u2014 sign-ups are not connected yet, so your address was not recorded.';
-    }
+    fetch(SIGNUP_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: v, platform: isAndroid ? 'android' : 'ios' })
+    }).then(function (r) {
+      if (!r.ok) throw 0;
+      form.classList.add('gone');
+      document.getElementById('waitDone').classList.add('on');
+      document.querySelector('.trust').classList.add('done');
+      document.getElementById('wlMsg').textContent = isAndroid
+        ? 'Thanks! We\u2019ll email you when Chiket is on Google Play.'
+        : 'You\u2019re on the iPhone beta list. Check your inbox.';
+      document.getElementById('waitNote').textContent = 'Chicago \u00b7 iPhone first';
+    }).catch(function () {
+      btn.disabled = false; btn.textContent = label;
+      fail('Something went wrong. Please try again.');
+    });
   });
 
   /* ---- pricing: monthly / annual ---- */
