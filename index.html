@@ -42,7 +42,7 @@
   --ease-out-3:cubic-bezier(.33,1,.68,1);
   --img-boot:url("/assets/boot-e0a107bb.webp");
   --img-snow:url("/assets/snow-1ad8df2d.webp");
-  --img-chaos:url("/assets/chaos-7d83a762.webp");
+  --img-chaos:url("/assets/chaos-03064794.webp");
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -683,7 +683,8 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
 .chaos{text-align:left}
 .chaos-bg{opacity:1;
   background:var(--img-chaos) center 46%/cover;
-  filter:grayscale(.5) saturate(.95) contrast(1.12) brightness(.82);
+  /* no grayscale: the orange citation under the wiper is the point of the photo */
+  filter:contrast(1.05) brightness(.85);
   -webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 30%,#000 58%,#000 100%);
   mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 30%,#000 58%,#000 100%)}
 .chaos::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
@@ -695,7 +696,8 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
 @media (max-width:768px){
   .chaos{text-align:center;padding:8rem 0}
   .chaos-bg{-webkit-mask-image:linear-gradient(180deg,transparent,#000 42%);
-    mask-image:linear-gradient(180deg,transparent,#000 42%)}
+    mask-image:linear-gradient(180deg,transparent,#000 42%);
+    background-position:84% 46%}  /* a phone shows a narrow slice: keep the citation in it */
   .chaos h2,.chaos>.container>p{max-width:100%;margin-inline:auto}
   .chaos-cards{margin-inline:auto}
 }
@@ -1071,6 +1073,27 @@ html.ios .android-only{display:none}
 .hero-phase[data-phase="1"]{padding-top:var(--snow-h,0px)}
 @media (max-width:768px){.hero-phase[data-phase="1"]{padding-top:calc(var(--snow-h,0px) * 1.5)}}
 @media (prefers-reduced-motion:reduce){.hero-phase[data-phase="3"]{padding-top:var(--snow-h,0px)}}
+
+/* --- waitlist in two columns on wide screens: the pitch on the left, the sign-up on the
+   right, so the section stops reading as one long centred column. Below 960px the single
+   centred column above stays as it was. --- */
+@media (min-width:960px){
+  .trust .container>.reveal{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+    gap:clamp(3rem,6vw,6rem);align-items:center;max-width:1120px;margin:0 auto;text-align:left}
+  .trust-copy p{margin-left:0;max-width:520px}
+  .trust-copy .deal{margin-left:0;max-width:540px}
+  .trust-copy .beta-when{margin-bottom:0}
+  .trust-act{background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:24px;
+    padding:2.25rem 2rem;text-align:center}
+  .trust-act .spots,.trust-act .waitlist,.trust-act .wl-err{max-width:none}
+  /* the column is narrower than the old centred form: email on its own row, button under it */
+  .trust-act .waitlist input[type=email]{flex:1 1 100%}
+  .trust-act .waitlist button[type=submit]{flex:1 1 100%;height:2.9rem}
+  .trust-act .built{margin-bottom:0}
+}
+/* phones: `.waitlist input{width:100%;height:3.1rem}` also caught the two radio buttons and
+   blew them up into 3rem discs that pushed their labels out of the chips */
+.waitlist .os-pick input[type=radio]{flex:none;width:1rem;height:1rem;padding:0}
 </style>
 </head>
 <body>
@@ -1126,13 +1149,13 @@ html.ios .android-only{display:none}
 <div class="hero-track" id="top">
   <section class="hero-stage">
     <picture class="hero-poster" aria-hidden="true">
-      <source media="(max-width:768px)" type="image/avif" srcset="/assets/hero-m-d98986ae.avif">
-      <source media="(max-width:768px)" type="image/webp" srcset="/assets/hero-m-109babf2.webp">
-      <source type="image/avif" srcset="/assets/hero-e6b401db.avif">
-      <source type="image/webp" srcset="/assets/hero-c788b455.webp">
-      <img src="/assets/hero-d41d0ec0.jpg" alt="" width="1280" height="720" fetchpriority="high">
+      <source media="(max-width:768px)" type="image/avif" srcset="/assets/hero-m-3ba51643.avif">
+      <source media="(max-width:768px)" type="image/webp" srcset="/assets/hero-m-ccb0d1c5.webp">
+      <source type="image/avif" srcset="/assets/hero-9340a199.avif">
+      <source type="image/webp" srcset="/assets/hero-740c25cf.webp">
+      <img src="/assets/hero-64abe42a.jpg" alt="" width="1920" height="1072" fetchpriority="high">
     </picture>
-    <video class="hero-video" id="heroVideo" data-src="/assets/hero-cb5b91a0.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+    <video class="hero-video" id="heroVideo" data-src="/assets/hero-90f46881.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
     <div class="hero-vignette"></div>
     <div class="hero-content">
       <div class="hero-phase" data-phase="1">
@@ -1340,6 +1363,7 @@ html.ios .android-only{display:none}
 
 <section class="trust" id="waitlist"><div class="container">
   <div class="reveal" data-rv="scale">
+    <div class="trust-copy">
     <div class="trust-label">Out now on Android</div>
     <h3>Chiket is live.<br>iPhone beta is open.</h3>
     <p>On Android, download it from Google Play. On iPhone, join the beta and your account
@@ -1354,6 +1378,9 @@ html.ios .android-only{display:none}
 
     <p class="beta-when">Testing starts just in time for the
       <strong>Dec 1 Overnight Winter Ban</strong>.</p>
+    </div>
+
+    <div class="trust-act">
 
     <div class="spots" id="spots">
       <div class="spots-bar" id="spotsBar" hidden><i id="spotsFill"></i></div>
@@ -1385,6 +1412,7 @@ html.ios .android-only{display:none}
       <span class="wl-msg" id="wlMsg">You&rsquo;re in.</span>
     </div>
     <p class="built" id="waitNote">Built in Chicago</p>
+    </div>
   </div>
 </div></section>
 
