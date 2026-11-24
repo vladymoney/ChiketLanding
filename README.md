@@ -2,10 +2,15 @@
 
 The marketing page for **Chiket**, a parking-compliance app for Chicago drivers.
 
-It is a single self-contained `index.html`: every asset — the scroll-scrubbed hero
-video, the photography, the icon sprite — is inlined as a `data:` URI. There is no
-build step, no bundler and no runtime dependency. The only thing it fetches from the
-network is Inter from Google Fonts.
+It is one hand-written `index.html` plus a handful of static files. The hero video,
+its poster stills and the photographs live in `assets/` under content-hashed names
+(cached for a year); the logo and icons sit next to the page. There is no build
+step, no bundler and no runtime dependency. The only third-party request is Inter
+from Google Fonts.
+
+The page uses root-relative URLs (`/assets/…`, `/logo.svg`), so open it through a
+web server — `docker compose up` below, or `python -m http.server` in this folder —
+not by double-clicking the file.
 
 ---
 

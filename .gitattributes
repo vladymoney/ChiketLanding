@@ -2,3 +2,7 @@
 # Pin LF so a Windows checkout can't ship CRLF into the Dockerfile or nginx.conf.
 * text=auto eol=lf
 *.jpg -text
+*.png -text
+*.webp -text
+*.avif -text
+*.mp4 -text
