@@ -42,7 +42,7 @@
   --ease-out-3:cubic-bezier(.33,1,.68,1);
   --img-boot:url("/assets/boot-e0a107bb.webp");
   --img-snow:url("/assets/snow-1ad8df2d.webp");
-  --img-chaos:url("/assets/chaos-7d83a762.webp");
+  --img-chaos:url("/assets/chaos-03064794.webp");
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -683,7 +683,8 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
 .chaos{text-align:left}
 .chaos-bg{opacity:1;
   background:var(--img-chaos) center 46%/cover;
-  filter:grayscale(.5) saturate(.95) contrast(1.12) brightness(.82);
+  /* no grayscale: the orange citation under the wiper is the point of the photo */
+  filter:contrast(1.05) brightness(.85);
   -webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 30%,#000 58%,#000 100%);
   mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 30%,#000 58%,#000 100%)}
 .chaos::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
@@ -695,7 +696,8 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
 @media (max-width:768px){
   .chaos{text-align:center;padding:8rem 0}
   .chaos-bg{-webkit-mask-image:linear-gradient(180deg,transparent,#000 42%);
-    mask-image:linear-gradient(180deg,transparent,#000 42%)}
+    mask-image:linear-gradient(180deg,transparent,#000 42%);
+    background-position:84% 46%}  /* a phone shows a narrow slice: keep the citation in it */
   .chaos h2,.chaos>.container>p{max-width:100%;margin-inline:auto}
   .chaos-cards{margin-inline:auto}
 }
