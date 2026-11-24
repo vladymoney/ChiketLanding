@@ -4,7 +4,7 @@
 FROM alpine:3.20 AS compress
 WORKDIR /src
 COPY index.html delete-account.html delete-data.html privacy-policy.html beta-terms.html beta.html \
-     robots.txt sitemap.xml og.jpg favicon.png apple-touch-icon.png ./
+     robots.txt sitemap.xml og.jpg favicon.png favicon.svg apple-touch-icon.png logo.svg ./
 RUN gzip -9 -k index.html delete-account.html delete-data.html privacy-policy.html beta-terms.html beta.html
 
 FROM nginx:1.27-alpine
@@ -16,7 +16,7 @@ COPY --from=compress /src/privacy-policy.html /src/privacy-policy.html.gz /usr/s
 COPY --from=compress /src/beta-terms.html /src/beta-terms.html.gz /usr/share/nginx/html/
 COPY --from=compress /src/beta.html /src/beta.html.gz /usr/share/nginx/html/
 COPY --from=compress /src/robots.txt /src/sitemap.xml /usr/share/nginx/html/
-COPY --from=compress /src/og.jpg /src/favicon.png /src/apple-touch-icon.png /usr/share/nginx/html/
+COPY --from=compress /src/og.jpg /src/favicon.png /src/favicon.svg /src/apple-touch-icon.png /src/logo.svg /usr/share/nginx/html/
 EXPOSE 80
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget -qO- http://127.0.0.1/healthz || exit 1

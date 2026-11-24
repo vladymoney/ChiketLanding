@@ -14,7 +14,8 @@
 <meta name="description" content="Chiket monitors Chicago street sweeping, winter parking bans, and permit deadlines, and alerts you before a ticket becomes a boot.">
 <meta name="theme-color" content="#06070a">
 <link rel="canonical" href="https://chiket.app/">
-<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script>document.documentElement.className+=" js";</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,8 +79,8 @@ html.js .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s var(
 .nav.scrolled{padding:.75rem 0;background:rgba(6,7,10,.85);backdrop-filter:blur(20px) saturate(180%);
   border-bottom:1px solid var(--border)}
 .nav-inner{display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:1.375rem;font-weight:800;letter-spacing:-.03em}
-.logo em{font-style:normal;color:var(--primary)}
+.logo{display:inline-flex;align-items:center;line-height:0}
+.logo img{display:block;height:30px;width:auto}
 .nav-links{display:flex;gap:2rem;font-size:.9rem;color:var(--text-2)}
 .nav-links a:hover{color:var(--text)}
 .nav-actions{display:flex;gap:.75rem;align-items:center}
@@ -974,7 +975,7 @@ html.ios .android-only{display:none}
   .nav-actions .btn-primary{padding:.55rem .95rem;font-size:.8125rem;white-space:nowrap}
   .gp-badge-sm{margin-left:-9px}
 }
-@media (max-width:360px){.logo{font-size:1.2rem}}
+@media (max-width:480px){.logo img{height:26px}}
 </style>
 </head>
 <body>
@@ -993,7 +994,7 @@ html.ios .android-only{display:none}
 <div id="progress" aria-hidden="true"></div>
 
 <nav class="nav" id="nav"><div class="container nav-inner">
-  <a class="logo" href="#top">Chiket<em>.app</em></a>
+  <a class="logo" href="#top"><img src="/logo.svg" alt="Chiket.app" width="120" height="30"></a>
   <div class="nav-links">
     <a href="#features">Features</a><a href="#pricing">Pricing</a>
     <a href="#fleet">Fleet (B2B)</a><a href="#how-it-works">How it Works</a>
@@ -1269,7 +1270,7 @@ html.ios .android-only{display:none}
 <footer class="footer"><div class="container">
   <div class="footer-top">
     <div class="footer-brand">
-      <div class="logo">Chiket<em>.app</em></div>
+      <div class="logo"><img src="/logo.svg" alt="Chiket.app" width="120" height="30"></div>
       <p>The compliance shield for urban drivers. Built for Chicago.</p>
       <a class="gp-badge gp-badge-sm" href="https://play.google.com/store/apps/details?id=com.viti00.chiket" target="_blank" rel="noopener" aria-label="Get it on Google Play"></a>
     </div>
