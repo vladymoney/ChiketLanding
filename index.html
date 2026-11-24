@@ -900,6 +900,19 @@ html.ios .android-only{display:none}
   .waitlist{border-radius:20px}
   .waitlist .os-pick{flex:1 0 100%}
 }
+
+/* --- price lockup ---
+   The row carried letter-spacing:-.05em (about -2.8px at 56px) with no spacing
+   between the parts, so the $ sat against the first digit and /mo against the
+   last. Lay it out on the baseline with explicit gaps instead, and keep the
+   tightening on the numerals only. */
+.price-amount{display:flex;align-items:baseline;justify-content:flex-start;
+  gap:.06em;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.price-amount sup{font-size:.4em;font-weight:700;color:var(--text-2);line-height:1;
+  align-self:flex-start;margin-top:.26em;vertical-align:baseline;letter-spacing:0}
+.price-amount sub{font-size:.26em;font-weight:500;color:var(--text-2);line-height:1;
+  margin-left:.22em;vertical-align:baseline;letter-spacing:.01em}
+.price-alt{min-height:2.6em}
 </style>
 </head>
 <body>
