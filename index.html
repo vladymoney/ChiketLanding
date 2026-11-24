@@ -978,6 +978,57 @@ html.ios .android-only{display:none}
 }
 @media (max-width:480px){.logo img{height:26px}}
 
+/* ---- the phone is five real screenshots now, each exported with its own frame and shadow,
+        so the drawn phone body, its side buttons and its glow-coloured shadow step aside ---- */
+.phone-outer.phone-shots{width:min(340px,78vw);aspect-ratio:1020/2076;padding:0;border:0;border-radius:0;
+  background:none;box-shadow:none}
+.phone-outer.phone-shots::before,.phone-outer.phone-shots::after{content:none}
+.phone-shots .phone-face{position:absolute;inset:0;width:100%;height:100%;padding:0;object-fit:contain}
+.tab-now{display:none}
+/* the heading sits over left-aligned copy and tabs; centring it there read as a mistake */
+.phone-copy h2{margin-inline:0}
+/* between a phone and a laptop the screenshot stays beside its tabs, so a tap shows its result */
+@media (min-width:769px) and (max-width:1024px){
+  .phone-section-inner{grid-template-columns:minmax(0,1fr) auto;gap:2.5rem;align-items:center}
+  .phone-outer.phone-shots{width:min(300px,34vw)}
+  .phone-visual{order:0}
+}
+/* on a phone five stacked tabs would push the screenshot off the screen, so they become
+   one row of chips right above it and the open tab's line is printed once, underneath */
+@media (max-width:768px){
+  /* minmax(0,..) and min-width:0, or the chip row's full width sets the column and the page scrolls sideways */
+  .phone-section-inner{grid-template-columns:minmax(0,1fr);gap:1.5rem}
+  .phone-copy{min-width:0}
+  .phone-copy p{margin-bottom:1.25rem}
+  .screen-tabs{flex-direction:row;gap:.5rem;overflow-x:auto;scrollbar-width:none;padding-bottom:.25rem;
+    -webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);mask-image:linear-gradient(90deg,#000 86%,transparent)}
+  .screen-tabs::-webkit-scrollbar{display:none}
+  .screen-tab{flex:none;padding:.6rem 1rem;border-radius:999px}
+  .screen-tab:hover{transform:none}
+  .screen-tab .tab-desc{display:none}
+  .phone-copy p.tab-now{display:block;margin:.9rem 0 0;font-size:.9375rem;line-height:1.55;min-height:3.1em;max-width:none}
+}
+/* ---- the tour clip: a still and a button until someone asks for the video ---- */
+.tour{margin-top:6rem;display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.65fr);gap:3.5rem;align-items:center}
+.tour-copy h3{font-size:clamp(1.6rem,2.6vw,2.25rem);font-weight:800;letter-spacing:var(--tr-lg);line-height:1.05;margin-bottom:.9rem}
+.tour-copy p{font-size:1.0625rem;color:var(--text-2);line-height:1.7;max-width:34ch}
+.tour-frame{position:relative;aspect-ratio:16/9;border-radius:var(--r-3);overflow:hidden;background:#050506;
+  border:1px solid rgba(255,255,255,.10);box-shadow:0 30px 70px -30px rgba(0,0,0,.9)}
+.tour-play{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:none;cursor:pointer}
+.tour-play img,.tour-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+/* the still carries its own caption; a light veil makes the button read as sitting on top of it */
+.tour-play::after{content:"";position:absolute;inset:0;background:rgba(6,7,10,.38);transition:background .3s}
+.tour-play:hover::after{background:rgba(6,7,10,.22)}
+.tour-btn,.tour-len{z-index:1}
+.tour-btn{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;
+  display:grid;place-items:center;background:var(--brand);color:#0b0605;
+  box-shadow:0 12px 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.28);
+  transition:transform .35s var(--ease-out-expo)}
+.tour-play:hover .tour-btn,.tour-play:focus-visible .tour-btn{transform:scale(1.08)}
+.tour-len{position:absolute;right:.9rem;bottom:.8rem;padding:.2rem .55rem;border-radius:6px;
+  background:rgba(6,7,10,.82);font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums}
+@media (max-width:900px){.tour{grid-template-columns:1fr;gap:1.5rem;margin-top:4rem}}
+
 /* ---- snow watch ----
    A strip at the top of the nav that exists only while the forecast for Chicago reaches
    2 inches of snow. It is weather, so it is the one place besides the winter card that
@@ -1118,14 +1169,14 @@ html.ios .android-only{display:none}
 <section class="features" id="features"><div class="container">
   <div class="section-header reveal" data-rv="rise">
     <span class="tag">The Shield System</span>
-    <h2>Everything protecting your vehicle, automatically.</h2>
-    <p>7 compliance pillars. Real-time monitoring. Zero manual effort required.</p>
+    <h2>Everything that gets a Chicago driver ticketed, in one place.</h2>
+    <p>The tickets on your plates, the rules on your block, and seven expiry dates.</p>
   </div>
   <div class="bento-grid">
     <div class="bento-card bento-1">
       <div class="bento-icon"><svg class="ico" width="20" height="20" stroke-width="1.75"><use href="#i-shield"/></svg></div>
       <h3>7-Point Permits Shield</h3>
-      <p>Complete coverage across every compliance category Chicago enforces &mdash; monitored 24/7 with instant alerts the moment anything needs attention.</p>
+      <p>Seven expiry dates in one place, from your city sticker to your insurance. Chiket reminds you 7 days and 2 days before each one runs out.</p>
       <div class="shield-list">
         <div class="shield-item"><span class="check"><svg class="ico" width="11" height="11" stroke-width="3"><use href="#i-check"/></svg></span>City Sticker</div>
         <div class="shield-item"><span class="check"><svg class="ico" width="11" height="11" stroke-width="3"><use href="#i-check"/></svg></span>Zone Pass</div>
@@ -1138,86 +1189,89 @@ html.ios .android-only{display:none}
     </div>
     <div class="bento-card bento-2">
       <div class="bento-icon"><svg class="ico" width="20" height="20" stroke-width="1.75"><use href="#i-chart"/></svg></div>
-      <h3>Live Risk Gauge</h3>
-      <p>Your compliance score, calculated in real time from city databases.</p>
+      <h3>Boot Risk</h3>
+      <p>Chicago can boot a car with 3 or more unpaid tickets. Chiket shows how close each car is and raises an urgent alert when it is on the boot list.</p>
       <div class="gauge"><span>LOW</span></div>
-      <div class="gauge-cap">Boot Risk Score</div>
+      <div class="gauge-cap">Boot risk</div>
     </div>
     <div class="bento-card bento-3">
       <div class="bento-icon"><svg class="ico" width="20" height="20" stroke-width="1.75"><use href="#i-scale"/></svg></div>
-      <h3>Auto-Dispute</h3>
-      <p>We prepare and file your contest automatically, with the evidence the hearing officer asks for.</p>
-      <div class="fee-line">Included in Pro</div>
+      <h3>Appeal a Ticket</h3>
+      <p>Think a ticket is wrong? Pick it in the app, leave your contact details, and our team gets back to you about contesting it.</p>
+      <div class="fee-line">Track it under My Appeals</div>
     </div>
     <div class="bento-card bento-4 photo-card">
       <span class="ph" aria-hidden="true"><i></i></span>
       <div class="bento-icon"><svg class="ico" width="20" height="20" stroke-width="1.75"><use href="#i-bell"/></svg></div>
-      <h3>Boot &amp; Tow Defense</h3>
-      <p>Real-time threshold monitoring. Get SMS/Push alerts before your 3rd ticket hits.</p>
-      <div class="alert-badge"><span class="alert-dot"></span><span><b>Boot Alert Active</b><small>Zone B &middot; 0/3 tickets</small></span></div>
+      <h3>Daily Ticket Checks</h3>
+      <p>On Paid and Pro, Chiket checks your plates with the City every morning and notifies you when a new ticket shows up.</p>
+      <div class="alert-badge"><span class="alert-dot"></span><span><b>New ticket found</b><small>Checked every morning</small></span></div>
     </div>
     <div class="bento-card bento-5 photo-card">
       <span class="ph" aria-hidden="true"><i></i></span>
       <div class="bento-icon"><svg class="ico" width="20" height="20" stroke-width="1.75"><use href="#i-snow"/></svg></div>
-      <h3>Winter Ban Radar</h3>
-      <p>Overnight winter ban alerts, Dec 1 to Apr 1. Move before the tow trucks do.</p>
-      <div class="info-strip">Next ban: Tonight 9PM &mdash; 7AM</div>
+      <h3>Sweeping &amp; Winter Bans</h3>
+      <p>Save your block and Chiket reminds you the night before it is swept, and flags snow-route and winter overnight ban streets.</p>
+      <div class="info-strip">Winter overnight ban: Dec 1 to Apr 1, 3 to 7 AM</div>
     </div>
   </div>
 </div></section>
 
 <section class="phone-section" id="how-it-works"><div class="container"><div class="phone-section-inner">
   <div class="phone-copy reveal" data-rv="left">
-    <span class="tag">Live in Your Pocket</span>
-    <h2>Three screens. Total peace of mind.</h2>
-    <p>The Chiket app gives you an instant visual snapshot of your entire compliance situation. No hunting through city portals &mdash; everything in one place, always up to date.</p>
+    <span class="tag">The real app</span>
+    <h2>Five tabs. Nothing to hunt for.</h2>
+    <p>These are screenshots of Chiket on Android, not mockups. Tickets, your block, permits and alerts are one tap apart in the bottom bar.</p>
     <div class="screen-tabs" role="tablist">
       <button class="screen-tab active" role="tab" aria-selected="true" data-screen="0">
-        <span><span class="tab-title">Radial Risk Gauge</span><span class="tab-desc">Live debt &amp; risk score. See your compliance health at a glance.</span></span></button>
+        <span><span class="tab-title">Home</span><span class="tab-desc">What you owe, how many tickets are unpaid and how close your car is to a boot.</span></span></button>
       <button class="screen-tab" role="tab" aria-selected="false" data-screen="1">
-        <span><span class="tab-title">7-Point Permit Shield</span><span class="tab-desc">All 7 compliance checks in one view. Green means you're covered.</span></span></button>
+        <span><span class="tab-title">Cars &amp; Tickets</span><span class="tab-desc">Every open ticket on your plate, with the amount and the date it was issued.</span></span></button>
       <button class="screen-tab" role="tab" aria-selected="false" data-screen="2">
-        <span><span class="tab-title">Street Sweeping Radar</span><span class="tab-desc">Winter ban &amp; sweeping calendar synced to your block.</span></span></button>
+        <span><span class="tab-title">Zones</span><span class="tab-desc">Tap your block on the map. Chiket watches its sweeping dates, snow routes and winter bans.</span></span></button>
+      <button class="screen-tab" role="tab" aria-selected="false" data-screen="3">
+        <span><span class="tab-title">Alerts</span><span class="tab-desc">Sweeping tomorrow? You hear the night before, and every alert is kept for 90 days.</span></span></button>
+      <button class="screen-tab" role="tab" aria-selected="false" data-screen="4">
+        <span><span class="tab-title">Profile</span><span class="tab-desc">Voice warnings before red light and speed cameras, your plan, and a tally of the fines your alerts helped you avoid.</span></span></button>
     </div>
+    <p class="tab-now" id="tabNow">What you owe, how many tickets are unpaid and how close your car is to a boot.</p>
   </div>
   <div class="phone-visual"><div class="phone-glow" aria-hidden="true"></div><div>
-    <div class="phone-outer"><div class="phone-screen">
-      <div class="phone-status" aria-hidden="true"><span>9:41</span><span><i></i><i></i><i></i></span></div>
-      <div class="phone-face on" data-face="0">
-        <div class="phone-app-header">Chiket &mdash; Risk Monitor</div>
-        <div class="phone-gauge"><b>LOW</b></div>
-        <div class="phone-cap">Compliance Score</div>
-        <div style="margin-top:1rem">
-          <div class="phone-row"><span>Active Violations</span><span>0</span></div>
-          <div class="phone-row"><span>Open Disputes</span><span>0</span></div>
-          <div class="phone-row"><span>Boot Threshold</span><span>0/3</span></div>
-          <div class="phone-row"><span>Debt Balance</span><span>$0.00</span></div>
-        </div>
-      </div>
-      <div class="phone-face" data-face="1">
-        <div class="phone-app-header">7-Point Shield</div>
-        <div class="phone-row"><span>City Sticker</span><span>Valid</span></div>
-        <div class="phone-row"><span>Zone Pass</span><span>Active</span></div>
-        <div class="phone-row"><span>Guest Permits</span><span>OK</span></div>
-        <div class="phone-row"><span>State Tags</span><span>Current</span></div>
-        <div class="phone-row"><span>Emissions</span><span>Valid</span></div>
-        <div class="phone-row"><span>License</span><span>Valid</span></div>
-        <div class="phone-row"><span>Insurance</span><span>On file</span></div>
-      </div>
-      <div class="phone-face" data-face="2">
-        <div class="phone-app-header">Weather Radar</div>
-        <div style="display:flex;justify-content:center;margin:.5rem 0 1rem;color:var(--primary)">
-          <svg class="ico" width="36" height="36" stroke-width="1.5"><use href="#i-snow"/></svg></div>
-        <div class="snow-alert"><b>Overnight Winter Ban</b><small>Move vehicle by midnight</small></div>
-        <div class="phone-row"><span>Your Zone</span><span>Lincoln Park &middot; 7</span></div>
-        <div class="phone-row"><span>Ban Start</span><span>Tonight 9:00 PM</span></div>
-        <div class="phone-row"><span>Forecast</span><span>3&ndash;5 inches</span></div>
-        <div class="phone-row"><span>Alert Sent</span><span>SMS + Push</span></div>
-      </div>
-    </div></div>
-    <p class="sample-note">Sample data</p>
+    <div class="phone-outer phone-shots">
+      <img class="phone-face on" data-face="0" src="/assets/app-home-bdca4e62.webp" srcset="/assets/app-home-bdca4e62.webp 680w, /assets/app-home-2x-6e2f462f.webp 1020w"
+           sizes="(max-width:768px) 78vw, 340px" width="680" height="1384" loading="lazy" decoding="async"
+           alt="Chiket Home screen: an urgent boot-list alert, $1.2K in total fines, 9 unpaid tickets, a boot risk bar, and Pay Now and Appeal Tickets buttons">
+      <img class="phone-face" data-face="1" src="/assets/app-tickets-92513c49.webp" srcset="/assets/app-tickets-92513c49.webp 680w, /assets/app-tickets-2x-c9860efb.webp 1020w"
+           sizes="(max-width:768px) 78vw, 340px" width="680" height="1384" loading="lazy" decoding="async"
+           alt="Chiket Cars and Tickets screen: one vehicle, 9 open tickets, $1,181.73 due, and a list of unpaid tickets with amounts and issue dates">
+      <img class="phone-face" data-face="2" src="/assets/app-zones-58024aa5.webp" srcset="/assets/app-zones-58024aa5.webp 680w, /assets/app-zones-2x-7acc0390.webp 1020w"
+           sizes="(max-width:768px) 78vw, 340px" width="680" height="1384" loading="lazy" decoding="async"
+           alt="Chiket Zones screen: a map of Chicago with ward-section 4306 selected, ready to be added to the watched blocks">
+      <img class="phone-face" data-face="3" src="/assets/app-alerts-779ddf7a.webp" srcset="/assets/app-alerts-779ddf7a.webp 680w, /assets/app-alerts-2x-6385c926.webp 1020w"
+           sizes="(max-width:768px) 78vw, 340px" width="680" height="1384" loading="lazy" decoding="async"
+           alt="Chiket Notifications screen: a list of street sweeping reminders telling the driver to move the car tonight, and speed camera warnings">
+      <img class="phone-face" data-face="4" src="/assets/app-profile-6415ed34.webp" srcset="/assets/app-profile-6415ed34.webp 680w, /assets/app-profile-2x-6dcecefb.webp 1020w"
+           sizes="(max-width:768px) 78vw, 340px" width="680" height="1384" loading="lazy" decoding="async"
+           alt="Chiket Profile screen: camera alerts switched on, a savings card showing $1,120 in fines and towing fees avoided, and the subscription settings">
+    </div>
+    <p class="sample-note">Screenshots of the Android app</p>
   </div></div>
-</div></div></section>
+</div>
+<div class="tour reveal" data-rv="rise">
+  <div class="tour-copy">
+    <span class="tag">53-second tour</span>
+    <h3>Watch it move.</h3>
+    <p>Home, tickets, zones, alerts and plans, recorded on a phone. No sound.</p>
+  </div>
+  <div class="tour-frame" id="tour" data-src="/assets/tour-36c55717.mp4">
+    <button class="tour-play" id="tourPlay" type="button" aria-label="Play the 53-second tour of the app">
+      <img src="/assets/tour-poster-73587b4a.webp" alt="" width="1280" height="720" loading="lazy" decoding="async">
+      <span class="tour-btn" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M8.5 5.2v13.6l11-6.8z" fill="currentColor"/></svg></span>
+      <span class="tour-len" aria-hidden="true">0:53</span>
+    </button>
+  </div>
+</div>
+</div></section>
 
 <section class="chaos">
   <div class="chaos-bg"></div>
@@ -1455,10 +1509,8 @@ html.ios .android-only{display:none}
   /* ---- phone screen tabs: directional slide, glow tint, polite auto-advance ---- */
   var tabs = [].slice.call(document.querySelectorAll('.screen-tab')),
       faces = [].slice.call(document.querySelectorAll('.phone-face')),
-      screenEl = document.querySelector('.phone-screen'),
-      glow = document.querySelector('.phone-glow'),
-      GLOW = ['#5FD6A0', '#F49536', '#7FB3D5'],
-      SPILL = ['rgba(95,214,160,.11)', 'rgba(244,149,54,.10)', 'rgba(127,179,213,.11)'],
+      screenEl = document.querySelector('.phone-shots'),
+      tabNow = document.getElementById('tabNow'),
       cur = 0, autoOn = false, autoStop = false, autoTimer = null;
 
   function showFace(n){
@@ -1475,8 +1527,12 @@ html.ios .android-only{display:none}
       t.setAttribute('aria-selected', i === n ? 'true' : 'false');
     });
     cur = n;
-    if (glow) glow.style.background = GLOW[n];
-    if (phone) phone.style.setProperty('--phone-spill', SPILL[n]);
+    /* phone layout: the tabs are a row of chips and the open tab's line is printed under them */
+    var desc = tabs[n].querySelector('.tab-desc'), row = tabs[n].parentNode;
+    if (tabNow && desc) tabNow.textContent = desc.textContent;
+    if (row && row.scrollWidth > row.clientWidth && row.scrollTo)
+      row.scrollTo({left: tabs[n].getBoundingClientRect().left - row.getBoundingClientRect().left + row.scrollLeft - 16,
+                    behavior: RM ? 'auto' : 'smooth'});
     armTimer();
   }
   function armTimer(){
@@ -1505,9 +1561,21 @@ html.ios .android-only{display:none}
     phoneWrap.addEventListener('pointerenter', function(){ clearTimeout(autoTimer); });
     phoneWrap.addEventListener('pointerleave', armTimer);
   }
-  if (glow) glow.style.background = GLOW[0];
-  var phone = document.querySelector('.phone-outer');
-  if (phone) phone.style.setProperty('--phone-spill', SPILL[0]);
+
+  /* ---- tour clip: 4 MB that nobody pays for until they press play ---- */
+  var tour = document.getElementById('tour'), tourPlay = document.getElementById('tourPlay');
+  if (tour && tourPlay) tourPlay.addEventListener('click', function(){
+    var v = document.createElement('video'), still = tourPlay.querySelector('img');
+    v.controls = true; v.muted = true; v.preload = 'auto';
+    v.setAttribute('playsinline', '');
+    v.setAttribute('aria-label', 'Tour of the Chiket app');
+    if (still) v.poster = still.currentSrc || still.src;
+    v.src = tour.getAttribute('data-src');
+    tour.replaceChild(v, tourPlay);
+    var playing = v.play();
+    if (playing && playing.catch) playing.catch(function(){});
+    v.focus();
+  });
 
   /* ---- beta sign-up ----
      Posts straight to the Make automation. Verified it answers the browser's CORS
