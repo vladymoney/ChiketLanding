@@ -1094,6 +1094,44 @@ html.ios .android-only{display:none}
 /* phones: `.waitlist input{width:100%;height:3.1rem}` also caught the two radio buttons and
    blew them up into 3rem discs that pushed their labels out of the chips */
 .waitlist .os-pick input[type=radio]{flex:none;width:1rem;height:1rem;padding:0}
+/* --- phones: the three hero headlines are a slider, not a scroll scrub. On a phone the
+   scrub depended on how fast the thumb flicked: a quick swipe skipped a headline, a slow
+   one stalled between two. Here each headline holds the screen, advances on its own every
+   5.5s, and follows a swipe or a dot; any touch stops the auto-advance. The hero is one
+   screen tall, so the page scrolls straight on to the next section. --- */
+.hero-dots{display:none}
+.gp-m,.gp-m-row{display:none}
+@media (max-width:768px){.gp-m-row{display:flex}}
+@media (max-width:768px){
+  html.js .hero-track{height:100vh;height:100svh}
+  html.js .hero-stage{height:100vh;height:100svh}
+  .scroll-cue{display:none}
+  /* the phases are absolutely positioned, so .hero-content's padding never reached them */
+  .hero-phase{padding-inline:1.75rem}
+  .hero-sub{max-width:34ch}
+  /* 40px minimum ran "before it doubles." edge to edge at 390px; this keeps every line inside the margins */
+  .hero-phase h1{font-size:clamp(1.9rem,9.2vw,2.5rem)}
+  html.js.hero-slider .hero-phase{opacity:0;transform:translateX(28px);pointer-events:none;
+    transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1)}
+  html.js.hero-slider .hero-phase.is-prev{transform:translateX(-28px)}
+  html.js.hero-slider .hero-phase.is-on{opacity:1;transform:none;pointer-events:auto}
+  html.js.hero-slider .hero-dots{display:flex;position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 2.25rem);
+    z-index:3;justify-content:center;gap:.6rem}
+  .hero-dots button{width:8px;height:8px;padding:0;border:0;border-radius:999px;cursor:pointer;
+    background:rgba(255,255,255,.35);transition:width .3s ease,background .3s ease}
+  .hero-dots button[aria-selected=true]{width:26px;background:var(--primary)}
+  /* a 44px tap target around each 8px dot */
+  .hero-dots button{position:relative}
+  .hero-dots button::after{content:"";position:absolute;inset:-18px -9px}
+  /* one way in per slide: on phones that are not iPhones the Play badge replaces the
+     "Start Free" button, which pointed at the same store page. iPhones keep the button,
+     because there it leads to the beta form and the badge is hidden (html.ios). */
+  html:not(.ios) .hero-phase .js-get{display:none}
+  .gp-m{display:inline-block}
+  /* Google Play badge: bigger on phones, where it is the main way in */
+  .hero-actions .gp-badge{width:min(240px,66vw);max-width:none}
+}
+@media (max-width:768px) and (prefers-reduced-motion:reduce){.hero-dots{display:none!important}}
 </style>
 </head>
 <body>
@@ -1167,18 +1205,25 @@ html.ios .android-only{display:none}
       <div class="hero-phase" data-phase="2">
         <h1><span class="ln"><span>Automated Deadline</span></span><span class="ln"><span class="gradient-text">Tracking.</span></span></h1>
         <p class="hero-sub">Monitor street sweeping schedules, winter parking bans, and residential permits automatically.</p>
+        <div class="hero-actions gp-m-row"><a class="gp-badge android-only gp-m" href="https://play.google.com/store/apps/details?id=com.viti00.chiket" target="_blank" rel="noopener" aria-label="Get it on Google Play"></a></div>
       </div>
       <div class="hero-phase" data-phase="3">
         <h1><span class="ln"><span>See what you owe</span></span><span class="ln"><span class="gradient-text">before it doubles.</span></span></h1>
         <p class="hero-sub">Chiket tracks the fines on your plates and takes you straight to the city&rsquo;s payment page.</p>
         <div class="hero-actions">
           <a class="btn btn-primary btn-lg js-get" href="https://play.google.com/store/apps/details?id=com.viti00.chiket">Start Free &mdash; Get Protected</a>
+          <a class="gp-badge android-only gp-m" href="https://play.google.com/store/apps/details?id=com.viti00.chiket" target="_blank" rel="noopener" aria-label="Get it on Google Play"></a>
           <a class="btn btn-ghost btn-lg" href="#how-it-works">See How It Works &rarr;</a>
         </div>
         <p class="hero-trust">No credit card required &middot; Cancel anytime</p>
       </div>
     </div>
     <div class="scroll-cue" id="cue">Scroll</div>
+    <div class="hero-dots" id="heroDots" role="tablist" aria-label="Hero slides">
+      <button type="button" role="tab" aria-label="Slide 1 of 3" aria-selected="true"></button>
+      <button type="button" role="tab" aria-label="Slide 2 of 3" aria-selected="false"></button>
+      <button type="button" role="tab" aria-label="Slide 3 of 3" aria-selected="false"></button>
+    </div>
   </section>
 </div>
 
@@ -1671,6 +1716,8 @@ html.ios .android-only{display:none}
     [].slice.call(document.querySelectorAll('.js-get')).forEach(function(a){
       a.setAttribute('href', '#waitlist');
       a.removeAttribute('target'); a.removeAttribute('rel');
+      /* the hero button says what it does on iPhone: it opens the beta form, not a download */
+      if (a.closest && a.closest('.hero-phase')) a.textContent = 'Join the iPhone beta';
     });
   }
 
@@ -1740,6 +1787,53 @@ html.ios .android-only{display:none}
 
   if (RM) return;
 
+  /* ---- phones: hero headlines as a slider (see the CSS note at .hero-dots) ---- */
+  var slideMQ = matchMedia('(max-width: 768px)'),
+      slideEls = [].slice.call(document.querySelectorAll('.hero-phase')),
+      slideDots = [].slice.call(document.querySelectorAll('#heroDots button')),
+      slideStage = document.querySelector('.hero-stage'),
+      slideOn = false, slideCur = 0, slideTimer = null, slideAuto = true;
+  function slideShow(n){
+    slideCur = (n + slideEls.length) % slideEls.length;
+    slideEls.forEach(function(el, i){
+      el.classList.toggle('is-on', i === slideCur);
+      el.classList.toggle('is-prev', i < slideCur);
+      el.classList.toggle('lit', i === slideCur);
+      el.setAttribute('aria-hidden', i === slideCur ? 'false' : 'true');
+    });
+    slideDots.forEach(function(d, i){ d.setAttribute('aria-selected', i === slideCur ? 'true' : 'false'); });
+  }
+  function slideTick(){
+    clearTimeout(slideTimer);
+    if (slideOn && slideAuto) slideTimer = setTimeout(function(){
+      if (!document.hidden) slideShow(slideCur + 1);
+      slideTick();
+    }, 5500);
+  }
+  function slideStop(){ slideAuto = false; clearTimeout(slideTimer); }
+  function slideSetup(){
+    slideOn = slideMQ.matches;
+    document.documentElement.classList.toggle('hero-slider', slideOn);
+    slideEls.forEach(function(el){
+      el.style.opacity = ''; el.style.transform = ''; el.style.pointerEvents = '';
+      if (!slideOn) { el.classList.remove('is-on', 'is-prev'); el.removeAttribute('aria-hidden'); }
+    });
+    if (slideOn) slideShow(slideCur);
+    slideTick();
+  }
+  slideDots.forEach(function(d, i){ d.addEventListener('click', function(){ slideStop(); slideShow(i); }); });
+  var sx = 0, sy = 0;
+  slideStage.addEventListener('touchstart', function(e){
+    if (!slideOn) return; sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+  }, {passive:true});
+  slideStage.addEventListener('touchend', function(e){
+    if (!slideOn) return;
+    var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.3) { slideStop(); slideShow(slideCur + (dx < 0 ? 1 : -1)); }
+  }, {passive:true});
+  if (slideMQ.addEventListener) slideMQ.addEventListener('change', slideSetup); else slideMQ.addListener(slideSetup);
+  slideSetup();
+
   /* ---- scroll driver: rAF when it ticks, event/timer fallback when it doesn't ---- */
   var track = document.querySelector('.hero-track'),
       phases = [].slice.call(document.querySelectorAll('.hero-phase')),
@@ -1778,6 +1872,7 @@ html.ios .android-only{display:none}
     }
 
     var t = smoothed * 100;
+    if (!slideOn) {
     var o1 = eo(seg(t,25,35));
     phases[0].style.opacity = 1 - o1;
     phases[0].style.transform = 'translateY(' + (-40*o1) + 'px)';
@@ -1795,6 +1890,7 @@ html.ios .android-only{display:none}
     phases[0].classList.toggle('lit', (1 - o1) > 0.55);
     phases[1].classList.toggle('lit', (in2 * (1 - out2)) > 0.55);
     phases[2].classList.toggle('lit', in3 > 0.55);
+    }
 
     /* slow push-in across the whole scrub; the still and the footage move together */
     var zoom = (1.04 - 0.04 * smoothed).toFixed(4);
