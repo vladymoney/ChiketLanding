@@ -881,6 +881,25 @@ body{background:linear-gradient(180deg,#0b0806 0%,#08070a 20%,#06070a 44%,#06080
 .play-sub{font-size:.8125rem;color:var(--text-3);margin:.5rem 0 0}
 .deal li.play b{background:var(--primary-dim);border-color:var(--border-glow);color:var(--primary)}
 html.ios .android-only{display:none}
+
+/* --- real pricing: three tiers, no billing toggle --- */
+.fleet-note{text-align:center;font-size:.9375rem;color:var(--text-3);margin:2.5rem 0 0}
+.fleet-note a{color:var(--text-2)}
+.fleet-note a:hover{color:var(--flare)}
+
+/* --- signup form layout ---
+   The pill was built for one row: input + button. Adding the platform picker made
+   it three rows, and a 999px radius on a 174px-tall box renders as an ellipse with
+   the button stranded on its own line. Rounded rectangle, picker on its own row,
+   input and button sharing the next. */
+.waitlist{border-radius:22px;padding:.5rem;gap:.5rem;max-width:470px;align-items:center}
+.waitlist .os-pick{flex:1 0 100%;margin:0;width:auto}
+.waitlist input{flex:1 1 140px;height:2.75rem;padding:0 1rem}
+.waitlist button[type=submit]{flex:0 0 auto}
+@media (max-width:480px){
+  .waitlist{border-radius:20px}
+  .waitlist .os-pick{flex:1 0 100%}
+}
 </style>
 </head>
 <body>
@@ -997,8 +1016,8 @@ html.ios .android-only{display:none}
     <div class="bento-card bento-5 photo-card">
       <span class="ph" aria-hidden="true"><i></i></span>
       <div class="bento-icon"><svg class="ico" width="20" height="20" stroke-width="1.75"><use href="#i-snow"/></svg></div>
-      <h3>Snow Ban Radar</h3>
-      <p>2-inch threshold &amp; overnight winter ban alerts. Move before the tow trucks do.</p>
+      <h3>Winter Ban Radar</h3>
+      <p>Overnight winter ban alerts, Dec 1 to Apr 1. Move before the tow trucks do.</p>
       <div class="info-strip">Next ban: Tonight 9PM &mdash; 7AM</div>
     </div>
   </div>
@@ -1046,7 +1065,7 @@ html.ios .android-only{display:none}
         <div class="phone-app-header">Weather Radar</div>
         <div style="display:flex;justify-content:center;margin:.5rem 0 1rem;color:var(--primary)">
           <svg class="ico" width="36" height="36" stroke-width="1.5"><use href="#i-snow"/></svg></div>
-        <div class="snow-alert"><b>2-Inch Snow Ban Active</b><small>Move vehicle by midnight</small></div>
+        <div class="snow-alert"><b>Overnight Winter Ban</b><small>Move vehicle by midnight</small></div>
         <div class="phone-row"><span>Your Zone</span><span>Lincoln Park &middot; 7</span></div>
         <div class="phone-row"><span>Ban Start</span><span>Tonight 9:00 PM</span></div>
         <div class="phone-row"><span>Forecast</span><span>3&ndash;5 inches</span></div>
@@ -1076,52 +1095,48 @@ html.ios .android-only{display:none}
 
 <section class="pricing" id="pricing"><div class="container">
   <div class="section-header reveal" data-rv="rise">
-    <h2>Simple. Transparent. Pays for itself immediately.</h2>
-    <p>One ticket prevented covers your entire year. Do the math.</p>
-    <div class="billing-toggle" role="group" aria-label="Billing period">
-      <button type="button" data-bill="mo" aria-pressed="true">Monthly</button>
-      <button type="button" data-bill="yr" aria-pressed="false">Annual <span class="save-pill">&minus;35%</span></button>
-    </div>
+    <h2>Simple. Transparent. Pays for itself.</h2>
+    <p>A single $60 street cleaning ticket costs more than a whole year of Paid.</p>
   </div>
   <div class="pricing-grid">
     <div class="price-card">
-      <div class="plan-name">Free Shield</div>
-      <div class="price-amount"><span class="bm"><sup>$</sup>0<sub>/mo</sub></span><span class="by"><sup>$</sup>0<sub>/yr</sub></span></div>
+      <div class="plan-name">Free</div>
+      <div class="price-amount"><sup>$</sup>0<sub>/mo</sub></div>
       <div class="price-alt">Forever free</div>
       <ul class="feature-list">
-        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Basic plate violation check</li>
-        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Ward &amp; zone lookup</li>
-        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Standard sweeping schedule</li>
+        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>1 car</li>
+        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Manual ticket checks</li>
       </ul>
-      <a class="btn btn-ghost js-get" href="https://play.google.com/store/apps/details?id=com.viti00.chiket">Start Free</a>
+      <a class="btn btn-ghost js-get" href="https://play.google.com/store/apps/details?id=com.viti00.chiket">Get Chiket</a>
+    </div>
+    <div class="price-card">
+      <div class="plan-name">Paid</div>
+      <div class="price-amount"><sup>$</sup>4.99<sub>/mo</sub></div>
+      <div class="price-alt">Everything automatic, one car</div>
+      <ul class="feature-list">
+        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>1 car</li>
+        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Daily automatic ticket checks</li>
+        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Street-sweeping &amp; winter-ban alerts</li>
+        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Permit reminders</li>
+      </ul>
+      <a class="btn btn-ghost js-get" href="https://play.google.com/store/apps/details?id=com.viti00.chiket">Get Chiket</a>
     </div>
     <div class="price-card popular">
-      <span class="badge">Recommended</span>
-      <div class="plan-name">Pro Shield</div>
-      <div class="price-amount"><span class="bm"><sup>$</sup>4.99<sub>/mo</sub></span><span class="by"><sup>$</sup>39<sub>/yr</sub></span></div>
-      <div class="price-alt"><span class="bm">or $39/year &mdash; save 35%</span><span class="by">$3.25/month, billed annually</span></div>
+      <span class="badge">Best value</span>
+      <div class="plan-name">Pro</div>
+      <div class="price-amount"><sup>$</sup>9.99<sub>/mo</sub></div>
+      <div class="price-alt">For a household with more than one car</div>
       <ul class="feature-list">
-        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>7-Point Permits Shield</li>
-        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Real-time Boot &amp; Tow alerts</li>
-        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>2-Inch Snow Ban warnings</li>
-        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Overnight Winter Ban alerts</li>
-        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>SMS + Push notifications</li>
+        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Up to 3 cars</li>
+        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Daily automatic ticket checks</li>
+        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Street-sweeping &amp; winter-ban alerts</li>
+        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Permit reminders</li>
       </ul>
       <a class="btn btn-primary js-get" href="https://play.google.com/store/apps/details?id=com.viti00.chiket">Get Chiket</a>
     </div>
-    <div class="price-card" id="fleet">
-      <div class="plan-name">Fleet Shield</div>
-      <div class="price-amount"><sub style="font-size:1rem;font-weight:600;color:var(--text-2)">From </sub><sup>$</sup>15<sub>/veh</sub></div>
-      <div class="price-alt"><span class="bm">$15&ndash;25 per vehicle / month</span><span class="by">$15&ndash;25 per vehicle / month, annual billing on request</span></div>
-      <ul class="feature-list">
-        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>All Pro features included</li>
-        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Master fleet dashboard</li>
-        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Fleet-wide risk analysis</li>
-        <li><svg class="ico" width="14" height="14" stroke-width="2.5"><use href="#i-check"/></svg>Bulk dispute management</li>
-      </ul>
-      <a class="btn btn-ghost" href="#waitlist">Contact Sales &rarr;</a>
-    </div>
   </div>
+  <p class="fleet-note" id="fleet">Running a fleet? <a href="mailto:info@chiket.app?subject=Chiket%20for%20fleets">Talk to us</a>
+    and we&rsquo;ll work out what fits.</p>
 </div></section>
 
 <section class="trust" id="waitlist"><div class="container">
