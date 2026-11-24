@@ -1100,6 +1100,8 @@ html.ios .android-only{display:none}
    5.5s, and follows a swipe or a dot; any touch stops the auto-advance. The hero is one
    screen tall, so the page scrolls straight on to the next section. --- */
 .hero-dots{display:none}
+.gp-m,.gp-m-row{display:none}
+@media (max-width:768px){.gp-m-row{display:flex}}
 @media (max-width:768px){
   html.js .hero-track{height:100vh;height:100svh}
   html.js .hero-stage{height:100vh;height:100svh}
@@ -1121,6 +1123,11 @@ html.ios .android-only{display:none}
   /* a 44px tap target around each 8px dot */
   .hero-dots button{position:relative}
   .hero-dots button::after{content:"";position:absolute;inset:-18px -9px}
+  /* one way in per slide: on phones that are not iPhones the Play badge replaces the
+     "Start Free" button, which pointed at the same store page. iPhones keep the button,
+     because there it leads to the beta form and the badge is hidden (html.ios). */
+  html:not(.ios) .hero-phase .js-get{display:none}
+  .gp-m{display:inline-block}
   /* Google Play badge: bigger on phones, where it is the main way in */
   .hero-actions .gp-badge{width:min(240px,66vw);max-width:none}
 }
@@ -1198,12 +1205,14 @@ html.ios .android-only{display:none}
       <div class="hero-phase" data-phase="2">
         <h1><span class="ln"><span>Automated Deadline</span></span><span class="ln"><span class="gradient-text">Tracking.</span></span></h1>
         <p class="hero-sub">Monitor street sweeping schedules, winter parking bans, and residential permits automatically.</p>
+        <div class="hero-actions gp-m-row"><a class="gp-badge android-only gp-m" href="https://play.google.com/store/apps/details?id=com.viti00.chiket" target="_blank" rel="noopener" aria-label="Get it on Google Play"></a></div>
       </div>
       <div class="hero-phase" data-phase="3">
         <h1><span class="ln"><span>See what you owe</span></span><span class="ln"><span class="gradient-text">before it doubles.</span></span></h1>
         <p class="hero-sub">Chiket tracks the fines on your plates and takes you straight to the city&rsquo;s payment page.</p>
         <div class="hero-actions">
           <a class="btn btn-primary btn-lg js-get" href="https://play.google.com/store/apps/details?id=com.viti00.chiket">Start Free &mdash; Get Protected</a>
+          <a class="gp-badge android-only gp-m" href="https://play.google.com/store/apps/details?id=com.viti00.chiket" target="_blank" rel="noopener" aria-label="Get it on Google Play"></a>
           <a class="btn btn-ghost btn-lg" href="#how-it-works">See How It Works &rarr;</a>
         </div>
         <p class="hero-trust">No credit card required &middot; Cancel anytime</p>
