@@ -12,6 +12,16 @@ The page uses root-relative URLs (`/assets/…`, `/logo.svg`), so open it throug
 web server — `docker compose up` below, or `python -m http.server` in this folder —
 not by double-clicking the file.
 
+## Snow watch strip
+
+From October to April the page asks the National Weather Service
+(`api.weather.gov`, no key) for the snowfall forecast over downtown Chicago. If any
+24-hour stretch adds up to 2 inches, a strip appears at the top of the nav; otherwise
+nothing is shown. It is a forecast check for visitors, not a City ban notice and not
+an app feature, and the strip says so.
+
+Preview it with made-up numbers: `/?snowtest=3.5` (inches). Preview mode labels itself.
+
 ---
 
 ## Run it on a VPS
