@@ -1716,6 +1716,8 @@ html.ios .android-only{display:none}
     [].slice.call(document.querySelectorAll('.js-get')).forEach(function(a){
       a.setAttribute('href', '#waitlist');
       a.removeAttribute('target'); a.removeAttribute('rel');
+      /* the hero button says what it does on iPhone: it opens the beta form, not a download */
+      if (a.closest && a.closest('.hero-phase')) a.textContent = 'Join the iPhone beta';
     });
   }
 
